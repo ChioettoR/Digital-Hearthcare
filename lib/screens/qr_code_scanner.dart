@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:new_dhc/constants.dart';
 import 'package:new_dhc/widgets/function_button.dart';
+import 'package:new_dhc/wrapper.dart';
 
 class QRCodeScanner extends StatefulWidget {
-  const QRCodeScanner({super.key});
+  final bool logged;
+  const QRCodeScanner({super.key, required this.logged});
 
   @override
   State<QRCodeScanner> createState() => _QRCodeScannerState();
@@ -30,7 +32,18 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        leading: BackButton(
+            onPressed: () => {
+                  if (widget.logged)
+                    {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const Wrapper()),
+                          (Route<dynamic> route) => false)
+                    }
+                  else
+                    {Navigator.pop(context)}
+                }),
         title: const Text("QR Code Scanner"),
       ),
       body: _buildBody(),

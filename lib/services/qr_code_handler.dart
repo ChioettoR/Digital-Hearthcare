@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -31,12 +31,12 @@ class QRCodeHandler {
       await downloadQRCodeWeb(data);
     } else {
       String path = await _createImage(data);
-      if (await Permission.storage.request().isGranted) {
-        await ImageGallerySaver.saveFile(path);
-        Fluttertoast.showToast(msg: "Downloaded!");
-      } else {
-        Fluttertoast.showToast(msg: "Permission not granted!");
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        await Permission.storage.request();
       }
+      await ImageGallerySaver.saveFile(path);
+      Fluttertoast.showToast(msg: "Downloaded!");
     }
   }
 

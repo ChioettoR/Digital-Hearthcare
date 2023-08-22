@@ -59,7 +59,7 @@ class _WrapperState extends State<Wrapper> {
                             citizen,
                             volunteer,
                             doctor,
-                            openQRCodeScanner,
+                            openQRCodeScannerLogged,
                             openEmergencyNumbersLogged,
                             logout);
                       } else {
@@ -102,7 +102,16 @@ class _WrapperState extends State<Wrapper> {
   openQRCodeScanner() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const QRCodeScanner()),
+      MaterialPageRoute(
+          builder: (context) => const QRCodeScanner(logged: true)),
+    );
+  }
+
+  openQRCodeScannerLogged() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const QRCodeScanner(logged: false)),
     );
   }
 

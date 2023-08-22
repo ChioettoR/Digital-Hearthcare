@@ -13,7 +13,6 @@ class PSS {
   String? rhFactor;
   String? bloodPressure;
   String? bmi;
-  String? cf;
   String? chronicPathologies;
   String? chronicPharmacologicalTherapies;
   String? mmgBirthDate;
@@ -57,7 +56,6 @@ class PSS {
       this.rhFactor,
       this.bloodPressure,
       this.bmi,
-      this.cf,
       this.chronicPathologies,
       this.chronicPharmacologicalTherapies,
       this.mmgBirthDate,

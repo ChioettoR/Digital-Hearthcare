@@ -10,12 +10,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(const MyApp());
+    runApp(const Main());
   });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Main extends StatelessWidget {
+  const Main({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Digital Healthcare',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
       ),
       home: const Initialization(),
     );

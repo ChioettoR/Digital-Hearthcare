@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:new_dhc/model/pss.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_html/html.dart' as html;
 import 'package:path_provider/path_provider.dart';
@@ -15,6 +14,7 @@ import 'package:new_dhc/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 
 import '../model/citizen.dart';
 
@@ -1439,6 +1439,5 @@ class PDFHandler {
   _printPDF(String name) async {
     Uint8List bytes = await pdf.save();
     Printing.layoutPdf(onLayout: (_) => bytes);
-    print("b");
   }
 }

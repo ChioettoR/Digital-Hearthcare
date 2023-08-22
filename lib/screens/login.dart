@@ -17,6 +17,8 @@ class Login extends StatelessWidget {
       bool result = await AuthService().login(data.name, data.password);
       if (!result) {
         return "Errore nell'inserimento delle credenziali.";
+      } else {
+        setLogged();
       }
       return null;
     });
@@ -59,9 +61,6 @@ class Login extends StatelessWidget {
               return "La password deve contenere almeno 4 caratteri!";
             }
             return null;
-          },
-          onSubmitAnimationCompleted: () {
-            setLogged();
           },
           onRecoverPassword: _recoverPassword,
           theme: LoginTheme(

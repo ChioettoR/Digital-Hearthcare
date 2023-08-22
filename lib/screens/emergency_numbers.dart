@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:humanitarian_icons/humanitarian_icons.dart';
+import 'package:new_dhc/wrapper.dart';
 
 import '../model/doctor.dart';
 import '../model/volunteer.dart';
@@ -48,7 +49,13 @@ class EmergencyNumbers extends StatelessWidget {
             ))
         : Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: true,
+              leading: BackButton(
+                  onPressed: () => {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const Wrapper()),
+                            (Route<dynamic> route) => false)
+                      }),
               title: const Text("Numeri di Emergenza"),
             ),
             body: _buildEmergency(context),

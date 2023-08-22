@@ -192,7 +192,6 @@ class DatabaseService {
           bloodPressure: getFieldQuery(element, "bloodPressure"),
           rhFactor: getFieldQuery(element, "rhFactor"),
           bmi: getFieldQuery(element, "bmi"),
-          cf: getFieldQuery(element, "cf"),
           chronicPathologies: getFieldQuery(element, "chronicPathologies"),
           chronicPharmacologicalTherapies:
               getFieldQuery(element, "chronicPharmacologicalTherapies"),
