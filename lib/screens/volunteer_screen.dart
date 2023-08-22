@@ -59,11 +59,25 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: (widget.volunteer.photoUrl == null ||
-                    widget.volunteer.photoUrl!.isEmpty)
-                ? const SizedBox.shrink()
-                : CircleAvatar(
-                    backgroundImage: NetworkImage(widget.volunteer.photoUrl!)),
+            child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.red,
+                    width: 1.5,
+                  ),
+                ),
+                child: widget.volunteer.photoUrl != null &&
+                        widget.volunteer.photoUrl!.isNotEmpty &&
+                        widget.volunteer.photoUrl! != "-"
+                    ? CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(widget.volunteer.photoUrl!),
+                      )
+                    : const CircleAvatar(
+                        backgroundImage: AssetImage(
+                        "assets/images/photoPlaceholder.png",
+                      ))),
           ),
           title: const Text("Homepage"),
           actions: [

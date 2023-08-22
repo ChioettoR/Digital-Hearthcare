@@ -457,9 +457,20 @@ class PDFHandler {
             .asUint8List();
     final mvi =
         (await rootBundle.load('assets/logos/mvi.png')).buffer.asUint8List();
-    final http.Response profileImage =
-        await http.get(Uri.parse(citizen!.photoUrl!));
-    final profile = profileImage.bodyBytes;
+
+    Uint8List profile;
+    if (citizen!.photoUrl != null &&
+        citizen!.photoUrl!.isNotEmpty &&
+        citizen!.photoUrl! != "-") {
+      final http.Response profileImage =
+          await http.get(Uri.parse(citizen!.photoUrl!));
+      profile = profileImage.bodyBytes;
+    } else {
+      ByteData byteData =
+          await rootBundle.load('assets/images/photoPlaceholder.png');
+      profile = byteData.buffer.asUint8List();
+    }
+
     pdf.addPage(Page(
         pageFormat: PdfPageFormat.a4,
         margin: const EdgeInsets.all(0),
@@ -479,11 +490,19 @@ class PDFHandler {
     final mvi =
         (await rootBundle.load('assets/logos/mvi.png')).buffer.asUint8List();
     List<Uint8List> photosList = [];
+
     for (int i = 0; i < citizens!.length; i++) {
-      http.Response profileImage =
-          await http.get(Uri.parse(citizens![i].photoUrl!));
-      Uint8List profile = profileImage.bodyBytes;
-      photosList.add(profile);
+      if (citizens![i].photoUrl != null &&
+          citizens![i].photoUrl!.isNotEmpty &&
+          citizens![i].photoUrl! != "-") {
+        final http.Response profileImage =
+            await http.get(Uri.parse(citizens![i].photoUrl!));
+        photosList.add(profileImage.bodyBytes);
+      } else {
+        ByteData byteData =
+            await rootBundle.load('assets/images/photoPlaceholder.png');
+        photosList.add(byteData.buffer.asUint8List());
+      }
     }
 
     for (int i = 0; i < pssCitizens!.length; i++) {
@@ -782,9 +801,20 @@ class PDFHandler {
         (await rootBundle.load('assets/logos/mvi.png')).buffer.asUint8List();
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
-    final http.Response profileImage =
-        await http.get(Uri.parse(citizen!.photoUrl!));
-    final profile = profileImage.bodyBytes;
+
+    Uint8List profile;
+    if (citizen!.photoUrl != null &&
+        citizen!.photoUrl!.isNotEmpty &&
+        citizen!.photoUrl! != "-") {
+      final http.Response profileImage =
+          await http.get(Uri.parse(citizen!.photoUrl!));
+      profile = profileImage.bodyBytes;
+    } else {
+      ByteData byteData =
+          await rootBundle.load('assets/images/photoPlaceholder.png');
+      profile = byteData.buffer.asUint8List();
+    }
+
     pdf.addPage(Page(
         pageFormat: PdfPageFormat.a4,
         margin: const EdgeInsets.all(0),
@@ -800,11 +830,19 @@ class PDFHandler {
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
 
     List<Uint8List> photosList = [];
+
     for (int i = 0; i < citizens!.length; i++) {
-      http.Response profileImage =
-          await http.get(Uri.parse(citizens![i].photoUrl!));
-      Uint8List profile = profileImage.bodyBytes;
-      photosList.add(profile);
+      if (citizens![i].photoUrl != null &&
+          citizens![i].photoUrl!.isNotEmpty &&
+          citizens![i].photoUrl! != "-") {
+        final http.Response profileImage =
+            await http.get(Uri.parse(citizens![i].photoUrl!));
+        photosList.add(profileImage.bodyBytes);
+      } else {
+        ByteData byteData =
+            await rootBundle.load('assets/images/photoPlaceholder.png');
+        photosList.add(byteData.buffer.asUint8List());
+      }
     }
 
     for (int i = 0; i < pssCitizens!.length; i++) {
@@ -880,9 +918,19 @@ class PDFHandler {
         (await rootBundle.load('assets/logos/omceo.jpg')).buffer.asUint8List();
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
-    final http.Response profileImage =
-        await http.get(Uri.parse(citizen!.photoUrl!));
-    final profile = profileImage.bodyBytes;
+
+    Uint8List profile;
+    if (citizen!.photoUrl != null &&
+        citizen!.photoUrl!.isNotEmpty &&
+        citizen!.photoUrl! != "-") {
+      final http.Response profileImage =
+          await http.get(Uri.parse(citizen!.photoUrl!));
+      profile = profileImage.bodyBytes;
+    } else {
+      ByteData byteData =
+          await rootBundle.load('assets/images/photoPlaceholder.png');
+      profile = byteData.buffer.asUint8List();
+    }
 
     pdf.addPage(Page(
         pageFormat: PdfPageFormat.a4,
@@ -921,11 +969,19 @@ class PDFHandler {
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
     List<Uint8List> photosList = [];
+
     for (int i = 0; i < citizens!.length; i++) {
-      http.Response profileImage =
-          await http.get(Uri.parse(citizens![i].photoUrl!));
-      Uint8List profile = profileImage.bodyBytes;
-      photosList.add(profile);
+      if (citizens![i].photoUrl != null &&
+          citizens![i].photoUrl!.isNotEmpty &&
+          citizens![i].photoUrl! != "-") {
+        final http.Response profileImage =
+            await http.get(Uri.parse(citizens![i].photoUrl!));
+        photosList.add(profileImage.bodyBytes);
+      } else {
+        ByteData byteData =
+            await rootBundle.load('assets/images/photoPlaceholder.png');
+        photosList.add(byteData.buffer.asUint8List());
+      }
     }
 
     for (int i = 0; i < pssCitizens!.length; i++) {

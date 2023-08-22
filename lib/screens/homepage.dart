@@ -43,11 +43,26 @@ class _HomepageState extends State<Homepage> {
         child: Scaffold(
             appBar: AppBar(
               leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(widget.citizen.photoUrl!),
-                ),
-              ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: widget.citizen.photoUrl != null &&
+                              widget.citizen.photoUrl!.isNotEmpty &&
+                              widget.citizen.photoUrl! != "-"
+                          ? CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(widget.citizen.photoUrl!),
+                            )
+                          : const CircleAvatar(
+                              backgroundImage: AssetImage(
+                              "assets/images/photoPlaceholder.png",
+                            )))),
               title: const Text("Homepage"),
               actions: [
                 Tooltip(
