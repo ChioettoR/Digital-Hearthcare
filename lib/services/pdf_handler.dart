@@ -458,7 +458,7 @@ class PDFHandler {
     final mvi =
         (await rootBundle.load('assets/logos/mvi.png')).buffer.asUint8List();
 
-    Uint8List profile;
+    Uint8List? profile;
     if (citizen!.photoUrl != null &&
         citizen!.photoUrl!.isNotEmpty &&
         citizen!.photoUrl! != "-") {
@@ -466,9 +466,7 @@ class PDFHandler {
           await http.get(Uri.parse(citizen!.photoUrl!));
       profile = profileImage.bodyBytes;
     } else {
-      ByteData byteData =
-          await rootBundle.load('assets/images/photoPlaceholder.png');
-      profile = byteData.buffer.asUint8List();
+      profile = null;
     }
 
     pdf.addPage(Page(
@@ -489,7 +487,7 @@ class PDFHandler {
             .asUint8List();
     final mvi =
         (await rootBundle.load('assets/logos/mvi.png')).buffer.asUint8List();
-    List<Uint8List> photosList = [];
+    List<Uint8List?> photosList = [];
 
     for (int i = 0; i < citizens!.length; i++) {
       if (citizens![i].photoUrl != null &&
@@ -499,9 +497,7 @@ class PDFHandler {
             await http.get(Uri.parse(citizens![i].photoUrl!));
         photosList.add(profileImage.bodyBytes);
       } else {
-        ByteData byteData =
-            await rootBundle.load('assets/images/photoPlaceholder.png');
-        photosList.add(byteData.buffer.asUint8List());
+        photosList.add(null);
       }
     }
 
@@ -655,7 +651,9 @@ class PDFHandler {
                     height: 60,
                     child: Padding(
                       padding: const EdgeInsets.all(2),
-                      child: Image(MemoryImage(profile), fit: BoxFit.fitWidth),
+                      child: profile != null
+                          ? Image(MemoryImage(profile), fit: BoxFit.fitWidth)
+                          : SizedBox.shrink(),
                     ))
               ])
             ])));
@@ -802,7 +800,7 @@ class PDFHandler {
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
 
-    Uint8List profile;
+    Uint8List? profile;
     if (citizen!.photoUrl != null &&
         citizen!.photoUrl!.isNotEmpty &&
         citizen!.photoUrl! != "-") {
@@ -810,9 +808,7 @@ class PDFHandler {
           await http.get(Uri.parse(citizen!.photoUrl!));
       profile = profileImage.bodyBytes;
     } else {
-      ByteData byteData =
-          await rootBundle.load('assets/images/photoPlaceholder.png');
-      profile = byteData.buffer.asUint8List();
+      profile = null;
     }
 
     pdf.addPage(Page(
@@ -829,7 +825,7 @@ class PDFHandler {
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
 
-    List<Uint8List> photosList = [];
+    List<Uint8List?> photosList = [];
 
     for (int i = 0; i < citizens!.length; i++) {
       if (citizens![i].photoUrl != null &&
@@ -839,9 +835,7 @@ class PDFHandler {
             await http.get(Uri.parse(citizens![i].photoUrl!));
         photosList.add(profileImage.bodyBytes);
       } else {
-        ByteData byteData =
-            await rootBundle.load('assets/images/photoPlaceholder.png');
-        photosList.add(byteData.buffer.asUint8List());
+        photosList.add(null);
       }
     }
 
@@ -919,7 +913,7 @@ class PDFHandler {
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
 
-    Uint8List profile;
+    Uint8List? profile;
     if (citizen!.photoUrl != null &&
         citizen!.photoUrl!.isNotEmpty &&
         citizen!.photoUrl! != "-") {
@@ -927,9 +921,7 @@ class PDFHandler {
           await http.get(Uri.parse(citizen!.photoUrl!));
       profile = profileImage.bodyBytes;
     } else {
-      ByteData byteData =
-          await rootBundle.load('assets/images/photoPlaceholder.png');
-      profile = byteData.buffer.asUint8List();
+      profile = null;
     }
 
     pdf.addPage(Page(
@@ -968,7 +960,8 @@ class PDFHandler {
         (await rootBundle.load('assets/logos/omceo.jpg')).buffer.asUint8List();
     final ice =
         (await rootBundle.load('assets/logos/ice.png')).buffer.asUint8List();
-    List<Uint8List> photosList = [];
+
+    List<Uint8List?> photosList = [];
 
     for (int i = 0; i < citizens!.length; i++) {
       if (citizens![i].photoUrl != null &&
@@ -978,9 +971,7 @@ class PDFHandler {
             await http.get(Uri.parse(citizens![i].photoUrl!));
         photosList.add(profileImage.bodyBytes);
       } else {
-        ByteData byteData =
-            await rootBundle.load('assets/images/photoPlaceholder.png');
-        photosList.add(byteData.buffer.asUint8List());
+        photosList.add(null);
       }
     }
 
@@ -1261,7 +1252,7 @@ class PDFHandler {
         ]));
   }
 
-  Container _blockFour(mvi, ice, Uint8List photo, PSS pss) {
+  Container _blockFour(mvi, ice, Uint8List? photo, PSS pss) {
     return Container(
         decoration: BoxDecoration(border: Border.all(color: PdfColors.black)),
         width: PdfPageFormat.a4.width / 2,
@@ -1353,8 +1344,9 @@ class PDFHandler {
                       child: Container(
                           height: (PdfPageFormat.a4.height / 10),
                           width: (PdfPageFormat.a4.width / 10),
-                          child:
-                              Image(MemoryImage(photo), fit: BoxFit.fitWidth)),
+                          child: photo != null
+                              ? Image(MemoryImage(photo), fit: BoxFit.fitWidth)
+                              : SizedBox.shrink()),
                     )
                   ])),
           Container(

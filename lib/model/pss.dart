@@ -131,7 +131,7 @@ class PSS {
       'Indirizzo di domicilio': citizen.domicileAddress,
       'Comune di domicilio': citizen.domicile,
       'Provincia di domicilio': citizen.domicileProvince,
-      'CAP': citizen.domicile,
+      'CAP': citizen.domicileCap,
       'Email': citizen.email,
       'Telefono': citizen.phone,
       'Pec': citizen.pec,

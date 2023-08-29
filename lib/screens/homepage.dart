@@ -44,25 +44,22 @@ class _HomepageState extends State<Homepage> {
             appBar: AppBar(
               leading: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.red,
-                          width: 1.5,
-                        ),
-                      ),
-                      child: widget.citizen.photoUrl != null &&
-                              widget.citizen.photoUrl!.isNotEmpty &&
-                              widget.citizen.photoUrl! != "-"
-                          ? CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(widget.citizen.photoUrl!),
-                            )
-                          : const CircleAvatar(
-                              backgroundImage: AssetImage(
-                              "assets/images/photoPlaceholder.png",
-                            )))),
+                  child: widget.citizen.photoUrl != null &&
+                          widget.citizen.photoUrl!.isNotEmpty &&
+                          widget.citizen.photoUrl! != "-"
+                      ? Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.red,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(widget.citizen.photoUrl!),
+                          ))
+                      : const SizedBox.shrink()),
               title: const Text("Homepage"),
               actions: [
                 Tooltip(
