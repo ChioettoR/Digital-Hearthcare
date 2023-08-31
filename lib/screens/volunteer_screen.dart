@@ -59,9 +59,7 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: widget.volunteer.photoUrl != null &&
-                    widget.volunteer.photoUrl!.isNotEmpty &&
-                    widget.volunteer.photoUrl! != "-"
+            child: widget.volunteer.photoUrl != "-"
                 ? Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -71,7 +69,7 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
                       ),
                     ),
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(widget.volunteer.photoUrl!),
+                      backgroundImage: NetworkImage(widget.volunteer.photoUrl),
                     ))
                 : const SizedBox.shrink(),
           ),
@@ -276,7 +274,7 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
                     element.citizen.fullName
                         .toLowerCase()
                         .contains(query.toLowerCase()) ||
-                    element.citizen.cf!
+                    element.citizen.cf
                         .toLowerCase()
                         .contains(query.toLowerCase()))
                 .toList();
@@ -319,7 +317,7 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
     for (var element in queryResult) {
       widgets.add(ListTile(
         title: Text(element.citizen.fullName),
-        subtitle: Text(element.citizen.cf!),
+        subtitle: Text(element.citizen.cf),
         trailing: element.body
             ? const SizedBox.shrink()
             : ElevatedButton(

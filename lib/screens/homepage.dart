@@ -44,9 +44,7 @@ class _HomepageState extends State<Homepage> {
             appBar: AppBar(
               leading: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: widget.citizen.photoUrl != null &&
-                          widget.citizen.photoUrl!.isNotEmpty &&
-                          widget.citizen.photoUrl! != "-"
+                  child: widget.citizen.photoUrl != "-"
                       ? Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -57,7 +55,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                           child: CircleAvatar(
                             backgroundImage:
-                                NetworkImage(widget.citizen.photoUrl!),
+                                NetworkImage(widget.citizen.photoUrl),
                           ))
                       : const SizedBox.shrink()),
               title: const Text("Homepage"),

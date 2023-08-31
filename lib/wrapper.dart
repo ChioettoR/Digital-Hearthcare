@@ -69,7 +69,7 @@ class _WrapperState extends State<Wrapper> {
                     });
               } else if (snapshot.data?.userType == volontario) {
                 return FutureBuilder<List<Citizen>>(
-                    future: DatabaseService().getCitizensList(endUser!.cf!),
+                    future: DatabaseService().getCitizensList(endUser!.cf),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<Citizen>? citizens = snapshot.data;

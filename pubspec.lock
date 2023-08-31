@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  country_code_picker:
+    dependency: "direct main"
+    description:
+      name: country_code_picker
+      sha256: "92818885f0e47486539f80463b66f649970506a91dd3c0731ca3ba5308324a4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   crypto:
     dependency: transitive
     description:
@@ -185,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
+  email_validator:
+    dependency: "direct main"
+    description:
+      name: email_validator
+      sha256: e9a90f27ab2b915a27d7f9c2a7ddda5dd752d6942616ee83529b686fc086221b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.17"
   equatable:
     dependency: transitive
     description:
@@ -376,6 +392,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   intl_phone_number_input:
     dependency: transitive
     description:
@@ -608,8 +632,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.1"
+  phone_number:
+    dependency: "direct main"
+    description:
+      name: phone_number
+      sha256: "509033faaed1e95f778b9dd6679a458d4e2641c579d40bee0db1cb674de8efac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   phone_numbers_parser:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: phone_numbers_parser
       sha256: "3b809c0190e7d1272a831f12a67ae5b329ef889d3a9e6da7a59fe86a471576e5"

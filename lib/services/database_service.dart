@@ -26,43 +26,43 @@ class DatabaseService {
 
   EndUser _userFromFirebase(DocumentSnapshot snapshot) {
     return EndUser(
-        cf: snapshot['cf'],
-        email: snapshot['email'],
-        firstName: snapshot['firstName'],
-        lastName: snapshot['lastName'],
-        phone: snapshot['phone'],
-        pec: snapshot['pec'],
-        photoUrl: snapshot['photoUrl'],
-        userType: snapshot['userType']);
+        getField(snapshot, 'cf'),
+        getField(snapshot, 'email'),
+        getField(snapshot, 'firstName'),
+        getField(snapshot, 'lastName'),
+        getField(snapshot, 'photoUrl'),
+        getField(snapshot, 'pec'),
+        getField(snapshot, 'phone'),
+        getField(snapshot, 'userType'));
   }
 
   Future<List<dynamic>> getCitizen(EndUser endUser) async {
     List<dynamic> citizenData = [];
-    String? cfVolunteer;
-    String? cfDoctor;
-    String? dateOfBirth;
-    String? genre;
-    String? domicile;
-    String? cityOfBirth;
-    String? provinceOfBirth;
-    String? idCardNumber;
-    String? idCardReleaseCity;
-    String? idCardReleaseDate;
-    String? idCardExpirationDate;
-    String? domicileAddress;
-    String? domicileProvince;
-    String? domicileCap;
-    String? crs;
-    String? firstICEContactInfo;
-    String? firstICEContactPhone;
-    String? secondICEContactInfo;
-    String? secondICEContactPhone;
+    late String cfVolunteer;
+    late String cfDoctor;
+    late String dateOfBirth;
+    late String genre;
+    late String domicile;
+    late String cityOfBirth;
+    late String provinceOfBirth;
+    late String idCardNumber;
+    late String idCardReleaseCity;
+    late String idCardReleaseDate;
+    late String idCardExpirationDate;
+    late String domicileAddress;
+    late String domicileProvince;
+    late String domicileCap;
+    late String crs;
+    late String firstICEContactInfo;
+    late String firstICEContactPhone;
+    late String secondICEContactInfo;
+    late String secondICEContactPhone;
 
     Volunteer? volunteer;
     Doctor? doctor;
     Map<String, PSS>? citizenMap;
-    String? infoCaregiver;
-    String? phoneCaregiver;
+    late String infoCaregiver;
+    late String phoneCaregiver;
 
     await patients.doc(endUser.cf).get().then((value) => {
           cfVolunteer = getField(value, "cfVolunteer"),
