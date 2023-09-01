@@ -60,8 +60,8 @@ dependencies:
   intl: ^0.18.1
   email_validator: ^2.1.17
   country_code_picker: ^3.0.0
-  phone_number: ^2.0.1
   phone_numbers_parser: ^8.0.0
+  dropdown_textfield: ^1.0.8
 
 dev_dependencies:
   flutter_test:

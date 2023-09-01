@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
+  dropdown_textfield:
+    dependency: "direct main"
+    description:
+      name: dropdown_textfield
+      sha256: "6e306d29d4bf8f88e2f9a4336d5e8dcc551d797fa8f541bb52a72817cc275cc4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   email_validator:
     dependency: "direct main"
     description:
@@ -632,14 +640,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.1"
-  phone_number:
-    dependency: "direct main"
-    description:
-      name: phone_number
-      sha256: "509033faaed1e95f778b9dd6679a458d4e2641c579d40bee0db1cb674de8efac"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   phone_numbers_parser:
     dependency: "direct main"
     description:

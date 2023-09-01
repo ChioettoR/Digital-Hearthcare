@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:new_dhc/constants.dart';
+import 'package:new_dhc/form_validation.dart';
 import 'package:new_dhc/model/user_data.dart';
+import 'package:new_dhc/widgets/custom_dropdown_edit_field.dart';
 import 'package:new_dhc/widgets/custom_edit_field.dart';
 import 'package:new_dhc/widgets/custom_edit_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import 'package:email_validator/email_validator.dart';
 
 import '../model/citizen.dart';
 import '../services/pdf_handler.dart';
@@ -81,6 +82,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 32, 16),
                     child: Form(
+                        autovalidateMode: AutovalidateMode.disabled,
                         key: _editingFormKey,
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -114,6 +116,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.lastName,
                                                   isEditing,
                                                   userData.lastName,
+                                                  false,
                                                   validation:
                                                       mandatoryFormValidation),
                                               Text(
@@ -129,6 +132,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.firstName,
                                                   isEditing,
                                                   userData.firstName,
+                                                  false,
                                                   validation:
                                                       mandatoryFormValidation),
                                               const Text(
@@ -138,8 +142,13 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              CustomEditField(widget.citizen.cf,
-                                                  false, userData.cf),
+                                              CustomEditField(
+                                                widget.citizen.cf,
+                                                false,
+                                                userData.cf,
+                                                false,
+                                                maxLength: 16,
+                                              ),
                                               Text(
                                                 textAlign: TextAlign.left,
                                                 !isEditing
@@ -149,10 +158,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              CustomEditField(
+                                              CustomDropdownEditField(
                                                   widget.citizen.genre,
                                                   isEditing,
-                                                  userData.genre),
+                                                  userData.genre,
+                                                  false),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'EMAIL:',
@@ -161,9 +171,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                         FontWeight.bold),
                                               ),
                                               CustomEditField(
-                                                  widget.citizen.email,
-                                                  false,
-                                                  userData.email),
+                                                widget.citizen.email,
+                                                false,
+                                                userData.email,
+                                                false,
+                                              ),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'PEC:',
@@ -175,6 +187,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.pec,
                                                   isEditing,
                                                   userData.pec,
+                                                  false,
                                                   validation: emailValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
@@ -210,6 +223,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.dateOfBirth,
                                                   isEditing,
                                                   userData.dateOfBirth,
+                                                  false,
                                                   onTapFunction:
                                                       requestBirthDate,
                                                   validation:
@@ -227,6 +241,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.cityOfBirth,
                                                   isEditing,
                                                   userData.cityOfBirth,
+                                                  false,
                                                   validation:
                                                       mandatoryFormValidation),
                                               Text(
@@ -239,9 +254,12 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                         FontWeight.bold),
                                               ),
                                               CustomEditField(
-                                                  widget.citizen.cityOfBirth,
+                                                  widget
+                                                      .citizen.provinceOfBirth,
                                                   isEditing,
                                                   userData.provinceOfBirth,
+                                                  false,
+                                                  maxLength: 3,
                                                   validation:
                                                       mandatoryFormValidation),
                                               Text(
@@ -257,6 +275,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.domicile,
                                                   isEditing,
                                                   userData.domicile,
+                                                  false,
                                                   validation:
                                                       mandatoryFormValidation),
                                               const Text(
@@ -271,6 +290,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .citizen.domicileAddress,
                                                   isEditing,
                                                   userData.domicileAddress,
+                                                  false,
                                                   validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
@@ -284,6 +304,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .citizen.domicileProvince,
                                                   isEditing,
                                                   userData.domicileProvince,
+                                                  false,
+                                                  maxLength: 3,
                                                   validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
@@ -296,6 +318,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.domicileCap,
                                                   isEditing,
                                                   userData.domicileCap,
+                                                  true,
+                                                  maxLength: 5,
                                                   validation: formValidation)
                                             ])),
                                     SizedBox(
@@ -319,8 +343,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .firstICEContactInfo,
                                                   isEditing,
                                                   userData.firstICEContactInfo,
-                                                  validation:
-                                                      extendedFormValidation),
+                                                  false,
+                                                  validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO PRIMO ICE:',
@@ -346,8 +370,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .secondICEContactInfo,
                                                   isEditing,
                                                   userData.secondICEContactInfo,
-                                                  validation:
-                                                      extendedFormValidation),
+                                                  false,
+                                                  validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO SECONDO ICE:',
@@ -372,8 +396,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.infoCaregiver,
                                                   isEditing,
                                                   userData.infoCaregiver,
-                                                  validation:
-                                                      extendedFormValidation),
+                                                  false,
+                                                  validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO CAREGIVER:',
@@ -396,6 +420,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.crs,
                                                   isEditing,
                                                   userData.crs,
+                                                  true,
                                                   validation: formValidation)
                                             ])),
                                     SizedBox(
@@ -418,6 +443,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.idCardNumber,
                                                   isEditing,
                                                   userData.idCardNumber,
+                                                  false,
+                                                  maxLength: 9,
                                                   validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
@@ -431,6 +458,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .idCardReleaseCity,
                                                   isEditing,
                                                   userData.idCardReleaseCity,
+                                                  false,
                                                   validation: formValidation),
                                               const Text(
                                                 textAlign: TextAlign.left,
@@ -444,6 +472,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .idCardReleaseDate,
                                                   isEditing,
                                                   userData.idCardReleaseDate,
+                                                  false,
                                                   onTapFunction:
                                                       requestCIReleaseDate,
                                                   validation: dateValidation),
@@ -459,6 +488,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       .idCardExpirationDate,
                                                   isEditing,
                                                   userData.idCardExpirationDate,
+                                                  false,
                                                   onTapFunction:
                                                       requestCIExpirationDate,
                                                   validation: dateValidation),
@@ -488,6 +518,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                 setState(() {
                                                   isEditing = false;
                                                 });
+                                                _editingFormKey.currentState!
+                                                    .save();
                                               }
                                             },
                                             child: const Text(
@@ -496,11 +528,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                           const SizedBox(width: 20),
                                           ElevatedButton(
                                             onPressed: () {
+                                              userData.reset();
+                                              _editingFormKey.currentState!
+                                                  .reset();
                                               setState(() {
                                                 isEditing = false;
-                                                userData.reset();
-                                                _editingFormKey.currentState!
-                                                    .reset();
                                               });
                                             },
                                             child:
@@ -510,7 +542,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                   : ElevatedButton(
                                       onPressed: () {
                                         setState(() {
-                                          isEditing = !isEditing;
+                                          isEditing = true;
                                         });
                                       },
                                       child: const Text('Modifica'),
@@ -587,70 +619,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
     );
   }
 
-  String? extendedFormValidation(String? value) {
-    if (value == null || value.isEmpty || value == '-') {
-      return null;
-    } else if (value.length > 100) {
-      return 'Massimo 100 caratteri consentiti';
-    }
-    return null;
-  }
-
-  String? formValidation(String? value) {
-    if (value == null || value.isEmpty || value == '-') {
-      return null;
-    } else if (value.length > 50) {
-      return 'Massimo 50 caratteri consentiti';
-    }
-    return null;
-  }
-
-  String? mandatoryFormValidation(String? value) {
-    if (value == null || value.isEmpty || value == '-') {
-      return 'Campo obbligatorio';
-    } else if (value.length > 50) {
-      return 'Massimo 50 caratteri consentiti';
-    }
-    return null;
-  }
-
-  String? emailValidation(String? value) {
-    if (value == null || value.isEmpty || value == '-') {
-      return null;
-    } else if (!EmailValidator.validate(value)) {
-      return 'L\'email inserita non è valida';
-    }
-    return null;
-  }
-
-  String? mandatoryDateValidation(String? value) {
-    if (value == null || value.isEmpty || value == '-') {
-      return 'Campo obbligatorio';
-    } else {
-      try {
-        DateFormat('yyyy-MM-dd').parse(value);
-        return null;
-      } catch (_) {
-        return 'La data inserita non è valida';
-      }
-    }
-  }
-
-  String? dateValidation(String? value) {
-    if (value == null || value.isEmpty || value == '-') {
-      return null;
-    } else {
-      try {
-        DateFormat('yyyy-MM-dd').parse(value);
-        return null;
-      } catch (_) {
-        return 'La data inserita non è valida';
-      }
-    }
-  }
-
   requestBirthDate() async {
-    FocusScope.of(context).requestFocus(FocusNode());
+    if (userData.dateOfBirth.text == "-") {
+      userData.dateOfBirth.clear();
+    }
+    //FocusScope.of(context).requestFocus(FocusNode());
     DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -663,7 +636,10 @@ class _VolunteerCardState extends State<VolunteerCard> {
   }
 
   requestCIReleaseDate() async {
-    FocusScope.of(context).requestFocus(FocusNode());
+    if (userData.idCardReleaseDate.text == "-") {
+      userData.idCardReleaseDate.clear();
+    }
+    //FocusScope.of(context).requestFocus(FocusNode());
     DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -676,7 +652,10 @@ class _VolunteerCardState extends State<VolunteerCard> {
   }
 
   requestCIExpirationDate() async {
-    FocusScope.of(context).requestFocus(FocusNode());
+    if (userData.idCardExpirationDate.text == "-") {
+      userData.idCardExpirationDate.clear();
+    }
+    //FocusScope.of(context).requestFocus(FocusNode());
     DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),

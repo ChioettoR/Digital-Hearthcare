@@ -1,3 +1,4 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:new_dhc/model/citizen.dart';
 
@@ -5,7 +6,7 @@ class UserData {
   late TextEditingController firstName;
   late TextEditingController lastName;
   late TextEditingController cf;
-  late TextEditingController genre;
+  late SingleValueDropDownController genre;
   late TextEditingController dateOfBirth;
   late TextEditingController cityOfBirth;
   late TextEditingController provinceOfBirth;
@@ -36,7 +37,8 @@ class UserData {
     firstName = TextEditingController(text: citizen.firstName);
     lastName = TextEditingController(text: citizen.lastName);
     cf = TextEditingController(text: citizen.cf);
-    genre = TextEditingController(text: citizen.genre);
+    genre = SingleValueDropDownController(
+        data: DropDownValueModel(name: citizen.genre, value: citizen.genre));
     dateOfBirth = TextEditingController(text: citizen.dateOfBirth);
     cityOfBirth = TextEditingController(text: citizen.cityOfBirth);
     provinceOfBirth = TextEditingController(text: citizen.provinceOfBirth);
@@ -66,39 +68,16 @@ class UserData {
     photoUrl = TextEditingController(text: citizen.photoUrl);
   }
 
-  UserData.empty() {
-    firstName = TextEditingController();
-    lastName = TextEditingController();
-    cf = TextEditingController();
-    genre = TextEditingController();
-    dateOfBirth = TextEditingController();
-    cityOfBirth = TextEditingController();
-    provinceOfBirth = TextEditingController();
-    idCardNumber = TextEditingController();
-    idCardReleaseCity = TextEditingController();
-    idCardReleaseDate = TextEditingController();
-    idCardExpirationDate = TextEditingController();
-    domicile = TextEditingController();
-    domicileAddress = TextEditingController();
-    domicileProvince = TextEditingController();
-    domicileCap = TextEditingController();
-    crs = TextEditingController();
-    email = TextEditingController();
-    pec = TextEditingController();
-    phone = TextEditingController();
-    firstICEContactInfo = TextEditingController();
-    firstICEContactPhone = TextEditingController();
-    secondICEContactInfo = TextEditingController();
-    secondICEContactPhone = TextEditingController();
-    infoCaregiver = TextEditingController();
-    phoneCaregiver = TextEditingController();
-    photoUrl = TextEditingController();
+  clearEmptyFields() {
+    if (firstName.text == "-") firstName.clear();
+    if (domicileCap.text == "-") domicileCap.text = "";
   }
 
   reset() {
     firstName.text = currentCitizen!.firstName;
     lastName.text = currentCitizen!.lastName;
-    genre.text = currentCitizen!.genre;
+    genre.dropDownValue = DropDownValueModel(
+        name: currentCitizen!.genre, value: currentCitizen!.genre);
     dateOfBirth.text = currentCitizen!.dateOfBirth;
     cityOfBirth.text = currentCitizen!.cityOfBirth;
     domicile.text = currentCitizen!.domicile;

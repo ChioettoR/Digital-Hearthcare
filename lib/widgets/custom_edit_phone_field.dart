@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+import 'package:new_dhc/form_validation.dart';
 
 class CustomEditPhoneField extends StatelessWidget {
   final String? initialValue;
   final bool isEditing;
   final TextEditingController myController;
+  final ScrollController scrollController = ScrollController();
 
-  const CustomEditPhoneField(
-      this.initialValue, this.isEditing, this.myController,
+  CustomEditPhoneField(this.initialValue, this.isEditing, this.myController,
       {super.key});
 
   @override
@@ -17,13 +17,22 @@ class CustomEditPhoneField extends StatelessWidget {
         width: 200,
         height: 60,
         child: TextFormField(
+          scrollController: scrollController,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller: myController,
           keyboardType: TextInputType.phone,
           enabled: isEditing,
+          onTapOutside: (_) => scrollController.jumpTo(0),
+          onTap: clearEmptyFields,
           validator: validatePhoneNumber,
           decoration: InputDecoration(
-            hintText: initialValue,
+            hintText: initialValue == "-" ? "" : initialValue,
+            errorBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.redAccent),
+            ),
+            focusedErrorBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.redAccent),
+            ),
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
             ),
@@ -37,13 +46,7 @@ class CustomEditPhoneField extends StatelessWidget {
         ));
   }
 
-  String? validatePhoneNumber(String? phoneNumber) {
-    if (phoneNumber == null || phoneNumber.isEmpty || phoneNumber == '-') {
-      return null;
-    }
-    PhoneNumber phoneParsed = PhoneNumber.parse("+39" '$phoneNumber');
-    bool valid = phoneParsed.isValid();
-
-    return valid ? null : "Numero non valido";
+  clearEmptyFields() {
+    if (myController.text == "-") myController.clear();
   }
 }
