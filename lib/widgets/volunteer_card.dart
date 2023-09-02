@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:new_dhc/constants.dart';
 import 'package:new_dhc/form_validation.dart';
@@ -7,6 +8,7 @@ import 'package:new_dhc/widgets/custom_edit_field.dart';
 import 'package:new_dhc/widgets/custom_edit_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 import '../model/citizen.dart';
 import '../services/pdf_handler.dart';
@@ -499,10 +501,29 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Expanded(
-                                                  child: Image(
-                                                      image: NetworkImage(widget
-                                                          .citizen.photoUrl)))
+                                              widget.citizen.photoUrl == "-"
+                                                  ? const SizedBox.shrink()
+                                                  : Expanded(
+                                                      child: Image(
+                                                      image: MemoryImage(
+                                                          Uint8List.fromList(
+                                                              widget
+                                                                  .citizen
+                                                                  .photoUrl
+                                                                  .codeUnits)),
+                                                    )),
+                                              const SizedBox(height: 10),
+                                              isEditing
+                                                  ? ElevatedButton(
+                                                      onPressed: () {
+                                                        kIsWeb
+                                                            ? pickImageWeb()
+                                                            : null;
+                                                      },
+                                                      child: const Text(
+                                                          'Carica foto'),
+                                                    )
+                                                  : const SizedBox.shrink()
                                             ]))
                                   ]),
                               const SizedBox(height: 20),
@@ -617,6 +638,14 @@ class _VolunteerCardState extends State<VolunteerCard> {
         ],
       ),
     );
+  }
+
+  pickImageWeb() async {
+    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    if (bytesFromPicker != null)
+      setState(() {
+        widget.citizen.photoUrl = String.fromCharCodes(bytesFromPicker);
+      });
   }
 
   requestBirthDate() async {
