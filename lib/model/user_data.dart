@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:new_dhc/model/citizen.dart';
+import 'package:new_dhc/services/database_service.dart';
 
 class UserData {
   late TextEditingController firstName;
@@ -28,7 +31,8 @@ class UserData {
   late TextEditingController secondICEContactPhone;
   late TextEditingController infoCaregiver;
   late TextEditingController phoneCaregiver;
-  late TextEditingController photoUrl;
+  late String photoUrl;
+  late Uint8List? photoBytes;
 
   late Citizen? currentCitizen;
 
@@ -65,12 +69,37 @@ class UserData {
         TextEditingController(text: citizen.secondICEContactPhone);
     infoCaregiver = TextEditingController(text: citizen.infoCaregiver);
     phoneCaregiver = TextEditingController(text: citizen.phoneCaregiver);
-    photoUrl = TextEditingController(text: citizen.photoUrl);
+    photoUrl = citizen.photoUrl;
+    photoBytes = null;
   }
 
-  clearEmptyFields() {
-    if (firstName.text == "-") firstName.clear();
-    if (domicileCap.text == "-") domicileCap.text = "";
+  saveCitizenFields() {
+    DatabaseService().editCitizenFields(currentCitizen!);
+
+    currentCitizen!.firstName = firstName.text;
+    currentCitizen!.lastName = lastName.text;
+    currentCitizen!.genre = genre.dropDownValue!.value;
+    currentCitizen!.dateOfBirth = dateOfBirth.text;
+    currentCitizen!.cityOfBirth = cityOfBirth.text;
+    currentCitizen!.domicile = domicile.text;
+    currentCitizen!.pec = pec.text;
+    currentCitizen!.phone = phone.text;
+    currentCitizen!.infoCaregiver = infoCaregiver.text;
+    currentCitizen!.phoneCaregiver = phoneCaregiver.text;
+    currentCitizen!.provinceOfBirth = provinceOfBirth.text;
+    currentCitizen!.idCardNumber = idCardNumber.text;
+    currentCitizen!.idCardReleaseCity = idCardReleaseCity.text;
+    currentCitizen!.idCardReleaseDate = idCardReleaseDate.text;
+    currentCitizen!.idCardExpirationDate = idCardExpirationDate.text;
+    currentCitizen!.domicileAddress = domicileAddress.text;
+    currentCitizen!.domicileProvince = domicileProvince.text;
+    currentCitizen!.domicileCap = domicileCap.text;
+    currentCitizen!.crs = crs.text;
+    currentCitizen!.firstICEContactInfo = firstICEContactInfo.text;
+    currentCitizen!.firstICEContactPhone = firstICEContactPhone.text;
+    currentCitizen!.secondICEContactInfo = secondICEContactInfo.text;
+    currentCitizen!.secondICEContactPhone = secondICEContactPhone.text;
+    currentCitizen!.photoUrl = photoUrl;
   }
 
   reset() {
@@ -98,6 +127,6 @@ class UserData {
     firstICEContactPhone.text = currentCitizen!.firstICEContactPhone;
     secondICEContactInfo.text = currentCitizen!.secondICEContactInfo;
     secondICEContactPhone.text = currentCitizen!.secondICEContactPhone;
-    photoUrl.text = currentCitizen!.photoUrl;
+    photoUrl = currentCitizen!.photoUrl;
   }
 }

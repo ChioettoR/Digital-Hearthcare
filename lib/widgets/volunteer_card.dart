@@ -9,6 +9,8 @@ import 'package:new_dhc/widgets/custom_edit_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:http/http.dart' as http;
+import 'package:new_dhc/services/database_service.dart';
 
 import '../model/citizen.dart';
 import '../services/pdf_handler.dart';
@@ -34,13 +36,26 @@ class _VolunteerCardState extends State<VolunteerCard> {
   bool isEditing = false;
   late UserData userData;
   final _editingFormKey = GlobalKey<FormState>();
+  late Uint8List? uploadedPhotoBytes;
 
   @override
   void initState() {
     userData = UserData(widget.citizen);
+    uploadedPhotoBytes = null;
+    loadPhoto();
     isEditing = false;
     currentDate = widget.citizen.data!.keys.last;
     super.initState();
+  }
+
+  loadPhoto() async {
+    if (userData.photoUrl != "-") {
+      Uint8List bytes =
+          (await http.get(Uri.parse(userData.photoUrl))).bodyBytes;
+      setState(() {
+        userData.photoBytes = bytes;
+      });
+    }
   }
 
   @override
@@ -501,17 +516,24 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              widget.citizen.photoUrl == "-"
-                                                  ? const SizedBox.shrink()
-                                                  : Expanded(
-                                                      child: Image(
+                                              const SizedBox(height: 5),
+                                              //Check if the user has uploaded an image. If so, shows that image.
+                                              uploadedPhotoBytes != null
+                                                  ? Image(
+                                                      fit: BoxFit.fitHeight,
+                                                      height: 150,
                                                       image: MemoryImage(
-                                                          Uint8List.fromList(
-                                                              widget
-                                                                  .citizen
-                                                                  .photoUrl
-                                                                  .codeUnits)),
-                                                    )),
+                                                          uploadedPhotoBytes!))
+                                                  //If the user hasn't upload an image, check if there's a storaged image.
+                                                  //If so, shows that image, otherwhise shows nothing.
+                                                  : userData.photoBytes != null
+                                                      ? Image(
+                                                          fit: BoxFit.fitHeight,
+                                                          height: 150,
+                                                          image: MemoryImage(
+                                                              userData
+                                                                  .photoBytes!))
+                                                      : const SizedBox.shrink(),
                                               const SizedBox(height: 10),
                                               isEditing
                                                   ? ElevatedButton(
@@ -523,7 +545,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       child: const Text(
                                                           'Carica foto'),
                                                     )
-                                                  : const SizedBox.shrink()
+                                                  : const SizedBox.shrink(),
                                             ]))
                                   ]),
                               const SizedBox(height: 20),
@@ -537,10 +559,16 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                               if (_editingFormKey.currentState!
                                                   .validate()) {
                                                 setState(() {
+                                                  _editingFormKey.currentState!
+                                                      .save();
+                                                  userData.saveCitizenFields();
+                                                  if (uploadedPhotoBytes !=
+                                                      null) {
+                                                    userData.photoBytes =
+                                                        uploadedPhotoBytes;
+                                                  }
                                                   isEditing = false;
                                                 });
-                                                _editingFormKey.currentState!
-                                                    .save();
                                               }
                                             },
                                             child: const Text(
@@ -549,10 +577,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                           const SizedBox(width: 20),
                                           ElevatedButton(
                                             onPressed: () {
-                                              userData.reset();
-                                              _editingFormKey.currentState!
-                                                  .reset();
                                               setState(() {
+                                                _editingFormKey.currentState!
+                                                    .reset();
+                                                userData.reset();
+                                                uploadedPhotoBytes = null;
                                                 isEditing = false;
                                               });
                                             },
@@ -642,10 +671,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
 
   pickImageWeb() async {
     Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
-    if (bytesFromPicker != null)
+    if (bytesFromPicker != null) {
       setState(() {
-        widget.citizen.photoUrl = String.fromCharCodes(bytesFromPicker);
+        uploadedPhotoBytes = bytesFromPicker;
       });
+    }
   }
 
   requestBirthDate() async {

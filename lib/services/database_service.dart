@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:new_dhc/model/end_user.dart';
+import 'package:new_dhc/model/user_data.dart';
 
 import '../constants.dart';
 import '../model/citizen.dart';
@@ -290,4 +291,6 @@ class DatabaseService {
     }
     return citizensList;
   }
+
+  editCitizenFields(Citizen newCitizen) {}
 }

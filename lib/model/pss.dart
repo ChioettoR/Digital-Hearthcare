@@ -113,7 +113,7 @@ class PSS {
     String? secondICEContactInfo = citizen.secondICEContactInfo;
     String? secondICEContactPhone = citizen.secondICEContactPhone;
 
-    return "$datiSalvavita${aCapo}Nome: $firstName$space$lastName${aCapo}Data di nascita: $dateOfBirth${aCapo}Gruppo sanguigno:$bloodGroup$rhFactor${aCapo}Contatto ICE1: $firstICEContactInfo$dash$firstICEContactPhone${aCapo}Contatto ICE1: $secondICEContactInfo$dash$secondICEContactPhone${aCapo}Allergie: $skinAllergies${aCapo}Patologie in atto: $actualPathologies${aCapo}Patologie croniche: $chronicPathologies${aCapo}Terapie: $chronicPharmacologicalTherapies";
+    return "$datiSalvavita${aCapo}Nome: $firstName$space$lastName${aCapo}Data di nascita: $dateOfBirth${aCapo}Gruppo sanguigno:$bloodGroup$rhFactor${aCapo}Contatto ICE1: $firstICEContactInfo$dash$firstICEContactPhone${aCapo}Contatto ICE2: $secondICEContactInfo$dash$secondICEContactPhone${aCapo}Allergie: $skinAllergies${aCapo}Patologie in atto: $actualPathologies${aCapo}Patologie croniche: $chronicPathologies${aCapo}Terapie: $chronicPharmacologicalTherapies";
   }
 
   Map<String, String?> toMapPSSSectionZero() {
@@ -159,7 +159,7 @@ class PSS {
       "Contatto di emergenza 1":
           "${citizen.firstICEContactInfo} - ${citizen.firstICEContactPhone}",
       "Contatto di emergenza 2":
-          "${citizen.secondICEContactInfo} - ${citizen.secondICEContactInfo}",
+          "${citizen.secondICEContactInfo} - ${citizen.secondICEContactPhone}",
       "Contatto caregiver":
           "${citizen.infoCaregiver} - ${citizen.phoneCaregiver}",
       'Vive solo': livesAlone,
