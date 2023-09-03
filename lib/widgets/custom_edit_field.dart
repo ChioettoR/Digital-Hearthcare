@@ -24,6 +24,7 @@ class CustomEditField extends StatelessWidget {
           scrollController: scrollController,
           readOnly: onTapFunction != null,
           onTapOutside: (_) => scrollController.jumpTo(0),
+          onSaved: (newValue) => {if (newValue == "") myController.text = "-"},
           maxLength: !isEditing ? null : maxLength,
           inputFormatters:
               onlyNumbers ? [FilteringTextInputFormatter.digitsOnly] : null,

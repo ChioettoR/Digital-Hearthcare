@@ -73,8 +73,9 @@ class UserData {
     photoBytes = null;
   }
 
-  saveCitizenFields() {
-    DatabaseService().editCitizenFields(currentCitizen!);
+  saveCitizenFields(Uint8List? uploadedPhotoBytes) {
+    if (uploadedPhotoBytes != null) photoBytes = uploadedPhotoBytes;
+    DatabaseService().editCitizenFields(currentCitizen!, photoBytes);
 
     currentCitizen!.firstName = firstName.text;
     currentCitizen!.lastName = lastName.text;

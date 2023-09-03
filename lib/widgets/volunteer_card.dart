@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:http/http.dart' as http;
-import 'package:new_dhc/services/database_service.dart';
 
 import '../model/citizen.dart';
 import '../services/pdf_handler.dart';
@@ -561,12 +560,8 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                 setState(() {
                                                   _editingFormKey.currentState!
                                                       .save();
-                                                  userData.saveCitizenFields();
-                                                  if (uploadedPhotoBytes !=
-                                                      null) {
-                                                    userData.photoBytes =
-                                                        uploadedPhotoBytes;
-                                                  }
+                                                  userData.saveCitizenFields(
+                                                      uploadedPhotoBytes);
                                                   isEditing = false;
                                                 });
                                               }

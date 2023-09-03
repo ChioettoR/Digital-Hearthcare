@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:new_dhc/model/end_user.dart';
-import 'package:new_dhc/model/user_data.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../constants.dart';
 import '../model/citizen.dart';
@@ -17,6 +20,8 @@ class DatabaseService {
 
   final CollectionReference patients =
       FirebaseFirestore.instance.collection('patients');
+
+  final firebaseStorageRef = FirebaseStorage.instance.ref();
 
   Future<EndUser> getUser() {
     return users
@@ -292,5 +297,56 @@ class DatabaseService {
     return citizensList;
   }
 
-  editCitizenFields(Citizen newCitizen) {}
+  editCitizenFields(Citizen newCitizen, Uint8List? photoBytes) async {
+    DocumentSnapshot snapshot =
+        await users.where('cf', isEqualTo: newCitizen.cf).get().then((value) {
+      return value.docs[0];
+    });
+
+    setField(snapshot, "firstName", newCitizen.firstName);
+    setField(snapshot, "lastName", newCitizen.lastName);
+    setField(snapshot, "phone", newCitizen.phone);
+    setField(snapshot, "pec", newCitizen.pec);
+
+    if (photoBytes != null) {
+      await firebaseStorageRef
+          .child("images/${newCitizen.cf}")
+          .putData(photoBytes)
+          .then((_) async => setField(
+              snapshot,
+              "photoUrl",
+              await firebaseStorageRef
+                  .child("images/${newCitizen.cf}")
+                  .getDownloadURL()));
+    }
+
+    snapshot = await patients.doc(newCitizen.cf).get().then((value) {
+      return value;
+    });
+
+    setField(snapshot, "genre", newCitizen.genre);
+    setField(snapshot, "dateOfBirth", newCitizen.dateOfBirth);
+    setField(snapshot, "cityOfBirth", newCitizen.cityOfBirth);
+    setField(snapshot, "domicile", newCitizen.domicile);
+    setField(snapshot, "infoCaregiver", newCitizen.infoCaregiver);
+    setField(snapshot, "phoneCaregiver", newCitizen.phoneCaregiver);
+    setField(snapshot, "provinceOfBirth", newCitizen.provinceOfBirth);
+    setField(snapshot, "idCardNumber", newCitizen.idCardNumber);
+    setField(snapshot, "idCardReleaseCity", newCitizen.idCardReleaseCity);
+    setField(snapshot, "idCardReleaseDate", newCitizen.idCardReleaseDate);
+    setField(snapshot, "idCardExpirationDate", newCitizen.idCardExpirationDate);
+    setField(snapshot, "domicileAddress", newCitizen.domicileAddress);
+    setField(snapshot, "domicileProvince", newCitizen.domicileProvince);
+    setField(snapshot, "domicileCap", newCitizen.domicileCap);
+    setField(snapshot, "crs", newCitizen.crs);
+    setField(snapshot, "firstICEContactInfo", newCitizen.firstICEContactInfo);
+    setField(snapshot, "firstICEContactPhone", newCitizen.firstICEContactPhone);
+    setField(snapshot, "secondICEContactInfo", newCitizen.secondICEContactInfo);
+    setField(
+        snapshot, "secondICEContactPhone", newCitizen.secondICEContactPhone);
+  }
+
+  setField(DocumentSnapshot document, String field, String fieldValue) {
+    document.reference.update({field: fieldValue == "-" ? "" : fieldValue});
+  }
 }

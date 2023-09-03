@@ -19,6 +19,7 @@ class CustomEditPhoneField extends StatelessWidget {
         child: TextFormField(
           scrollController: scrollController,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          onSaved: (newValue) => {if (newValue == "") myController.text = "-"},
           controller: myController,
           keyboardType: TextInputType.phone,
           enabled: isEditing,
