@@ -145,14 +145,18 @@ class DatabaseService {
 
     citizenData.add(volunteer);
 
-    doctor = await users.where('cf', isEqualTo: cfDoctor).get().then(
-        (querySnapshot) => Doctor(
-            getFieldQuery(querySnapshot.docs[0], "cf"),
-            getFieldQuery(querySnapshot.docs[0], "firstName"),
-            getFieldQuery(querySnapshot.docs[0], "lastName"),
-            getFieldQuery(querySnapshot.docs[0], "email"),
-            getFieldQuery(querySnapshot.docs[0], "pec"),
-            getFieldQuery(querySnapshot.docs[0], "phone")));
+    try {
+      doctor = await users.where('cf', isEqualTo: cfDoctor).get().then(
+          (querySnapshot) => Doctor(
+              getFieldQuery(querySnapshot.docs[0], "cf"),
+              getFieldQuery(querySnapshot.docs[0], "firstName"),
+              getFieldQuery(querySnapshot.docs[0], "lastName"),
+              getFieldQuery(querySnapshot.docs[0], "email"),
+              getFieldQuery(querySnapshot.docs[0], "pec"),
+              getFieldQuery(querySnapshot.docs[0], "phone")));
+    } catch (_) {
+      doctor = Doctor(cfDoctor, "-", "-", "-", "-", "-");
+    }
 
     citizenData.add(doctor);
 

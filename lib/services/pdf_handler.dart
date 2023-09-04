@@ -809,7 +809,7 @@ class PDFHandler {
         pageFormat: PdfPageFormat.a4,
         margin: const EdgeInsets.all(0),
         build: (Context context) {
-          return _blockFour(mvi, ice, profile, pssCitizen!);
+          return _blockFour(mvi, ice, profile, pssCitizen!, citizen!);
         }));
   }
 
@@ -836,7 +836,8 @@ class PDFHandler {
           pageFormat: PdfPageFormat.a4,
           margin: const EdgeInsets.all(0),
           build: (Context context) {
-            return _blockFour(mvi, ice, photosList[i], pssCitizens![i]);
+            return _blockFour(
+                mvi, ice, photosList[i], pssCitizens![i], citizens![i]);
           }));
     }
   }
@@ -926,7 +927,7 @@ class PDFHandler {
                 _blockOne(centodiciotto, centododici),
                 _blockTwo(comuneMilano, mvi, areu, simeu, omceo),
                 _blockThree(pssCitizen!),
-                _blockFour(mvi, ice, profile, pssCitizen!),
+                _blockFour(mvi, ice, profile, pssCitizen!, citizen!),
               ]);
         }));
   }
@@ -976,7 +977,8 @@ class PDFHandler {
                   _blockOne(centodiciotto, centododici),
                   _blockTwo(comuneMilano, mvi, areu, simeu, omceo),
                   _blockThree(pssCitizens![i]),
-                  _blockFour(mvi, ice, photosList[i], pssCitizens![i]),
+                  _blockFour(
+                      mvi, ice, photosList[i], pssCitizens![i], citizens![i]),
                 ]);
           }));
     }
@@ -1240,7 +1242,7 @@ class PDFHandler {
         ]));
   }
 
-  Container _blockFour(mvi, ice, Uint8List? photo, PSS pss) {
+  Container _blockFour(mvi, ice, Uint8List? photo, PSS pss, Citizen citizen) {
     return Container(
         decoration: BoxDecoration(border: Border.all(color: PdfColors.black)),
         width: PdfPageFormat.a4.width / 2,
@@ -1320,10 +1322,10 @@ class PDFHandler {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("ICE1: ${citizen!.firstICEContactPhone}",
+                              Text("ICE1: ${citizen.firstICEContactPhone}",
                                   style: const TextStyle(
                                       fontSize: 18, color: PdfColors.orange)),
-                              Text("ICE2: ${citizen!.secondICEContactPhone}",
+                              Text("ICE2: ${citizen.secondICEContactPhone}",
                                   style: const TextStyle(
                                       fontSize: 18, color: PdfColors.orange))
                             ])),

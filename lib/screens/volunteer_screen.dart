@@ -83,7 +83,7 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
 
   Widget _buildFloatingButton() {
     return SpeedDial(
-      activeIcon: Icons.print,
+      icon: Icons.print,
       mini: true,
       children: [
         SpeedDialChild(child: icons[0], onTap: generateMultipleData),
