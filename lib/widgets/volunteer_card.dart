@@ -8,8 +8,8 @@ import 'package:new_dhc/widgets/custom_edit_field.dart';
 import 'package:new_dhc/widgets/custom_edit_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 import 'package:http/http.dart' as http;
+import 'package:file_picker/file_picker.dart';
 
 import '../model/citizen.dart';
 import '../services/pdf_handler.dart';
@@ -106,13 +106,11 @@ class _VolunteerCardState extends State<VolunteerCard> {
                             children: [
                               OverflowBar(
                                   alignment: MainAxisAlignment.start,
-                                  overflowSpacing: 8.0,
-                                  spacing: 50,
+                                  overflowSpacing: 10,
                                   overflowAlignment: OverflowBarAlignment.start,
                                   children: [
                                     SizedBox(
-                                        width: 200,
-                                        height: 560,
+                                        width: 250,
                                         child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -135,6 +133,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   false,
                                                   validation:
                                                       mandatoryFormValidation),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 textAlign: TextAlign.left,
                                                 !isEditing
@@ -151,6 +150,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   false,
                                                   validation:
                                                       mandatoryFormValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'CODICE FISCALE:',
@@ -165,6 +165,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                 false,
                                                 maxLength: 16,
                                               ),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 textAlign: TextAlign.left,
                                                 !isEditing
@@ -179,6 +180,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   isEditing,
                                                   userData.genre,
                                                   false),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'EMAIL:',
@@ -192,6 +194,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                 userData.email,
                                                 false,
                                               ),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'PEC:',
@@ -205,6 +208,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.pec,
                                                   false,
                                                   validation: emailValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO:',
@@ -218,8 +222,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.phone)
                                             ])),
                                     SizedBox(
-                                        width: 200,
-                                        height: 560,
+                                        width: 250,
                                         child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -244,6 +247,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                       requestBirthDate,
                                                   validation:
                                                       mandatoryDateValidation),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 textAlign: TextAlign.left,
                                                 !isEditing
@@ -260,6 +264,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   false,
                                                   validation:
                                                       mandatoryFormValidation),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 textAlign: TextAlign.left,
                                                 !isEditing
@@ -278,6 +283,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   maxLength: 3,
                                                   validation:
                                                       mandatoryFormValidation),
+                                              const SizedBox(height: 10),
                                               Text(
                                                 textAlign: TextAlign.left,
                                                 !isEditing
@@ -294,6 +300,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   false,
                                                   validation:
                                                       mandatoryFormValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'INDIRIZZO DOMICILIO:',
@@ -308,6 +315,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.domicileAddress,
                                                   false,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'PROVINCIA DOMICILIO:',
@@ -323,6 +331,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   false,
                                                   maxLength: 3,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'CAP DOMICILIO:',
@@ -336,11 +345,10 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.domicileCap,
                                                   true,
                                                   maxLength: 5,
-                                                  validation: formValidation)
+                                                  validation: capValidation)
                                             ])),
                                     SizedBox(
-                                        width: 200,
-                                        height: 560,
+                                        width: 250,
                                         child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -361,6 +369,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.firstICEContactInfo,
                                                   false,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO PRIMO ICE:',
@@ -374,6 +383,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   isEditing,
                                                   userData
                                                       .firstICEContactPhone),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'NOMINATIVO SECONDO ICE:',
@@ -388,6 +398,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.secondICEContactInfo,
                                                   false,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO SECONDO ICE:',
@@ -401,6 +412,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   isEditing,
                                                   userData
                                                       .secondICEContactPhone),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'NOMINATIVO CAREGIVER:',
@@ -414,6 +426,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.infoCaregiver,
                                                   false,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'TELEFONO CAREGIVER:',
@@ -425,6 +438,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   widget.citizen.phoneCaregiver,
                                                   isEditing,
                                                   userData.phoneCaregiver),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'CRS:',
@@ -440,8 +454,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   validation: formValidation)
                                             ])),
                                     SizedBox(
-                                        width: 200,
-                                        height: 560,
+                                        width: 250,
                                         child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -462,6 +475,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   false,
                                                   maxLength: 9,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'COMUNE DI RILASCIO C.I.:',
@@ -476,6 +490,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   userData.idCardReleaseCity,
                                                   false,
                                                   validation: formValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'DATA RILASCIO C.I.:',
@@ -492,6 +507,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   onTapFunction:
                                                       requestCIReleaseDate,
                                                   validation: dateValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'SCADENZA C.I.:',
@@ -508,6 +524,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                   onTapFunction:
                                                       requestCIExpirationDate,
                                                   validation: dateValidation),
+                                              const SizedBox(height: 10),
                                               const Text(
                                                 textAlign: TextAlign.left,
                                                 'FOTO: ',
@@ -515,43 +532,60 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              const SizedBox(height: 5),
-                                              //Check if the user has uploaded an image. If so, shows that image.
-                                              uploadedPhotoBytes != null
-                                                  ? Image(
-                                                      fit: BoxFit.fitHeight,
-                                                      height: 150,
-                                                      image: MemoryImage(
-                                                          uploadedPhotoBytes!))
-                                                  //If the user hasn't upload an image, check if there's a storaged image.
-                                                  //If so, shows that image, otherwhise shows nothing.
-                                                  : userData.photoBytes != null
-                                                      ? Image(
-                                                          fit: BoxFit.fitHeight,
-                                                          height: 150,
-                                                          image: MemoryImage(
-                                                              userData
-                                                                  .photoBytes!))
-                                                      : const SizedBox.shrink(),
-                                              const SizedBox(height: 10),
-                                              isEditing
-                                                  ? ElevatedButton(
-                                                      onPressed: () {
-                                                        kIsWeb
-                                                            ? pickImageWeb()
-                                                            : null;
-                                                      },
-                                                      child: const Text(
-                                                          'Carica foto'),
-                                                    )
-                                                  : const SizedBox.shrink(),
-                                            ]))
+                                              SizedBox(
+                                                  height: 220,
+                                                  child: Align(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: SizedBox(
+                                                          height: 200,
+                                                          child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                const SizedBox(
+                                                                    height: 5),
+                                                                //Check if the user has uploaded an image. If so, shows that image.
+                                                                uploadedPhotoBytes !=
+                                                                        null
+                                                                    ? Expanded(
+                                                                        child: Image(
+                                                                            fit: BoxFit
+                                                                                .fitHeight,
+                                                                            image: MemoryImage(
+                                                                                uploadedPhotoBytes!)))
+                                                                    //If the user hasn't upload an image, check if there's a storaged image.
+                                                                    //If so, shows that image, otherwhise shows nothing.
+                                                                    : userData.photoBytes !=
+                                                                            null
+                                                                        ? Expanded(
+                                                                            child:
+                                                                                Image(fit: BoxFit.fitHeight, image: MemoryImage(userData.photoBytes!)))
+                                                                        : const SizedBox.shrink(),
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                isEditing
+                                                                    ? ElevatedButton(
+                                                                        onPressed:
+                                                                            pickImage,
+                                                                        child: const Text(
+                                                                            'Carica foto'),
+                                                                      )
+                                                                    : const SizedBox
+                                                                        .shrink()
+                                                              ]))))
+                                            ])),
                                   ]),
                               const SizedBox(height: 20),
                               isEditing
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                  ? OverflowBar(
+                                      spacing: 20,
+                                      overflowSpacing: 20,
+                                      alignment: MainAxisAlignment.start,
                                       children: [
                                           ElevatedButton(
                                             onPressed: () {
@@ -569,7 +603,6 @@ class _VolunteerCardState extends State<VolunteerCard> {
                                             child: const Text(
                                                 'Conferma Modifiche'),
                                           ),
-                                          const SizedBox(width: 20),
                                           ElevatedButton(
                                             onPressed: () {
                                               setState(() {
@@ -664,12 +697,17 @@ class _VolunteerCardState extends State<VolunteerCard> {
     );
   }
 
-  pickImageWeb() async {
-    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
-    if (bytesFromPicker != null) {
-      setState(() {
-        uploadedPhotoBytes = bytesFromPicker;
-      });
+  pickImage() async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(withData: true, type: FileType.image);
+
+    if (result != null) {
+      Uint8List? fileBytes = result.files.first.bytes;
+      if (fileBytes != null) {
+        setState(() {
+          uploadedPhotoBytes = fileBytes;
+        });
+      }
     }
   }
 

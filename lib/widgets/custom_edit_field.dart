@@ -19,7 +19,6 @@ class CustomEditField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: 200,
-        height: 60,
         child: TextFormField(
           scrollController: scrollController,
           readOnly: onTapFunction != null,
@@ -33,6 +32,7 @@ class CustomEditField extends StatelessWidget {
           enabled: isEditing,
           validator: validation,
           decoration: InputDecoration(
+            helperText: " ",
             hintText: initialValue == "-" ? "" : initialValue,
             errorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red),

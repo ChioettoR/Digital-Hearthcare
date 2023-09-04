@@ -66,3 +66,17 @@ String? dateValidation(String? value) {
     }
   }
 }
+
+String? capValidation(String? value) {
+  if (value != null && value.isNotEmpty && value.length < 5) {
+    return 'Inserire 5 cifre';
+  }
+  return null;
+}
+
+String? idCardValidation(String? value) {
+  if (value != null && value.isNotEmpty && value.length < 5) {
+    return 'Inserire 5 cifre';
+  }
+  return null;
+}

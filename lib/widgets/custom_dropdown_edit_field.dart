@@ -17,7 +17,7 @@ class CustomDropdownEditField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: 200,
-        height: 60,
+        height: 50,
         child: DropDownTextField(
           controller: myController,
           clearOption: false,
