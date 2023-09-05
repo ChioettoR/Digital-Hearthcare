@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomEditField extends StatelessWidget {
-  final String initialValue;
+  final String? initialValue;
   final bool isEditing;
   final TextEditingController myController;
   final dynamic onTapFunction;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 class CustomDropdownEditField extends StatelessWidget {
-  final String initialValue;
+  final String? initialValue;
   final bool isEditing;
   final SingleValueDropDownController myController;
   final dynamic validation;

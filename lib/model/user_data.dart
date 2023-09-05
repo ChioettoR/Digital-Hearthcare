@@ -73,9 +73,39 @@ class UserData {
     photoBytes = null;
   }
 
+  UserData.empty() {
+    currentCitizen = null;
+    firstName = TextEditingController();
+    lastName = TextEditingController();
+    cf = TextEditingController();
+    genre = SingleValueDropDownController();
+    dateOfBirth = TextEditingController();
+    cityOfBirth = TextEditingController();
+    provinceOfBirth = TextEditingController();
+    idCardNumber = TextEditingController();
+    idCardReleaseCity = TextEditingController();
+    idCardReleaseDate = TextEditingController();
+    idCardExpirationDate = TextEditingController();
+    domicile = TextEditingController();
+    domicileAddress = TextEditingController();
+    domicileProvince = TextEditingController();
+    domicileCap = TextEditingController();
+    crs = TextEditingController();
+    email = TextEditingController();
+    pec = TextEditingController();
+    phone = TextEditingController();
+    firstICEContactInfo = TextEditingController();
+    firstICEContactPhone = TextEditingController();
+    secondICEContactInfo = TextEditingController();
+    secondICEContactPhone = TextEditingController();
+    infoCaregiver = TextEditingController();
+    phoneCaregiver = TextEditingController();
+    photoUrl = "-";
+    photoBytes = null;
+  }
+
   saveCitizenFields(Uint8List? uploadedPhotoBytes) {
     if (uploadedPhotoBytes != null) photoBytes = uploadedPhotoBytes;
-    DatabaseService().editCitizenFields(currentCitizen!, photoBytes);
 
     currentCitizen!.firstName = firstName.text;
     currentCitizen!.lastName = lastName.text;
@@ -101,6 +131,8 @@ class UserData {
     currentCitizen!.secondICEContactInfo = secondICEContactInfo.text;
     currentCitizen!.secondICEContactPhone = secondICEContactPhone.text;
     currentCitizen!.photoUrl = photoUrl;
+
+    DatabaseService().editCitizenFields(currentCitizen!, photoBytes);
   }
 
   reset() {
