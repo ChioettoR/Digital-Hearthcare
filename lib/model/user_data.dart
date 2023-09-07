@@ -78,7 +78,8 @@ class UserData {
     firstName = TextEditingController();
     lastName = TextEditingController();
     cf = TextEditingController();
-    genre = SingleValueDropDownController();
+    genre = SingleValueDropDownController(
+        data: const DropDownValueModel(name: "Uomo", value: "Uomo"));
     dateOfBirth = TextEditingController();
     cityOfBirth = TextEditingController();
     provinceOfBirth = TextEditingController();

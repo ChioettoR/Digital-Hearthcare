@@ -1,16 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:new_dhc/constants.dart';
-import 'package:new_dhc/form_validation.dart';
-import 'package:new_dhc/model/user_data.dart';
-import 'package:new_dhc/widgets/custom_dropdown_edit_field.dart';
-import 'package:new_dhc/widgets/custom_edit_field.dart';
-import 'package:new_dhc/widgets/custom_edit_phone_field.dart';
+import 'package:new_dhc/screens/add_pss_screen.dart';
 import 'package:new_dhc/widgets/volunteer_data_fields.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'package:file_picker/file_picker.dart';
 
 import '../model/citizen.dart';
 import '../services/pdf_handler.dart';
@@ -42,7 +34,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
   void initState() {
     currentDate = widget.citizen.data!.keys.last;
     isEditing = false;
-    volunteerDataFields = VolunteerDataFields(widget.citizen, false,
+    volunteerDataFields = VolunteerDataFields(widget.citizen, false, false,
         key: _volunteerDataFieldsKey);
     super.initState();
   }
@@ -58,6 +50,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 PopupMenuButton(
+                  tooltip: "Seleziona PSS",
                   icon: const Icon(Icons.calendar_today),
                   initialValue: currentDate,
                   itemBuilder: (BuildContext context) {
@@ -75,6 +68,10 @@ class _VolunteerCardState extends State<VolunteerCard> {
                     });
                   },
                 ),
+                IconButton(
+                    tooltip: "Crea PSS",
+                    icon: const Icon(Icons.note_add_rounded),
+                    onPressed: addNewPSS),
                 IconButton(icon: const Icon(Icons.close), onPressed: remove),
               ],
             ),
@@ -202,12 +199,14 @@ class _VolunteerCardState extends State<VolunteerCard> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Ultimo aggiornamento: ${widget.citizen.data?.keys.last}",
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
+                ElevatedButton(
+                    onPressed: deletePatient, child: const Icon(Icons.delete))
               ],
             ),
           ),
@@ -215,6 +214,16 @@ class _VolunteerCardState extends State<VolunteerCard> {
       ),
     );
   }
+
+  addNewPSS() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddPSSScreen(false, userCF: widget.citizen.cf)),
+    );
+  }
+
+  deletePatient() {}
 
   printData() async {
     _showLoadingDialog();

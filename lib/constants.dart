@@ -77,6 +77,10 @@ String formatDate(DateTime date) {
   return "${date.day} ${_getMonth(date.month)} ${date.year}";
 }
 
+Color getCardColor() {
+  return Color(int.parse("#fdf5f4".substring(1, 7), radix: 16) + 0xFF000000);
+}
+
 String _getMonth(int month) {
   switch (month) {
     case 1:

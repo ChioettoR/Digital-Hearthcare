@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_dhc/model/end_user.dart';
 import 'package:new_dhc/model/pss.dart';
+import 'package:new_dhc/screens/add_patient_screen.dart';
 
 import '../constants.dart';
 import '../model/citizen.dart';
@@ -73,12 +74,23 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
                     ))
                 : const SizedBox.shrink(),
           ),
+          centerTitle: true,
           title: const Text("Homepage"),
           actions: [
+            ElevatedButton(
+                onPressed: addNewPatient,
+                child: const Icon(Icons.person_add_alt_1)),
             AppBarButton(const Icon(Icons.logout), widget.changeScreen),
           ],
         ),
         body: _searchScreen());
+  }
+
+  addNewPatient() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddPatientScreen()),
+    );
   }
 
   Widget _buildFloatingButton() {

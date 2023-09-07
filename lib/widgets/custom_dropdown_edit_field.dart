@@ -23,6 +23,7 @@ class CustomDropdownEditField extends StatelessWidget {
           clearOption: false,
           listSpace: -30,
           isEnabled: isEditing,
+          validator: validation,
           textFieldDecoration: InputDecoration(
             hintText: initialValue == "-" ? "" : initialValue,
             border: InputBorder.none,
@@ -39,9 +40,5 @@ class CustomDropdownEditField extends StatelessWidget {
             DropDownValueModel(name: 'Donna', value: "Donna"),
           ],
         ));
-  }
-
-  clearEmptyFields() {
-    //if (myController.text == "-") myController.clear();
   }
 }

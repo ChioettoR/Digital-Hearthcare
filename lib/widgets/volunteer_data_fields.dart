@@ -14,8 +14,10 @@ import 'package:http/http.dart' as http;
 class VolunteerDataFields extends StatefulWidget {
   final Citizen? citizen;
   final bool initialIsEditing;
+  final bool newData;
 
-  const VolunteerDataFields(this.citizen, this.initialIsEditing, {super.key});
+  const VolunteerDataFields(this.citizen, this.initialIsEditing, this.newData,
+      {super.key});
 
   @override
   State<VolunteerDataFields> createState() => VolunteerDataFieldsState();
@@ -67,17 +69,18 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                         userData.firstName, false,
                         validation: mandatoryFormValidation),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       textAlign: TextAlign.left,
-                      'CODICE FISCALE:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      !widget.newData ? 'CODICE FISCALE:' : 'CODICE FISCALE: *',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(
                       widget.citizen?.cf,
-                      false,
+                      widget.newData,
                       userData.cf,
                       false,
                       maxLength: 16,
+                      validation: cfValidation,
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -88,16 +91,17 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                     CustomDropdownEditField(widget.citizen?.genre, isEditing,
                         userData.genre, false),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       textAlign: TextAlign.left,
-                      'EMAIL:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      !widget.newData ? 'EMAIL:' : 'EMAIL: *',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(
                       widget.citizen?.email,
-                      false,
+                      widget.newData,
                       userData.email,
                       false,
+                      validation: mandatoryEmailValidation,
                     ),
                     const SizedBox(height: 10),
                     const Text(
@@ -311,7 +315,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                         child: Align(
                             alignment: Alignment.topLeft,
                             child: SizedBox(
-                                height: 200,
+                                height: 205,
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -326,7 +330,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                                                   image: MemoryImage(
                                                       uploadedPhotoBytes!)))
                                           //If the user hasn't upload an image, check if there's a storaged image.
-                                          //If so, shows that image, otherwhise shows a placeholder.
+                                          //If so, shows that image, otherwhise shows nothing.
                                           : userData.photoBytes != null
                                               ? Expanded(
                                                   child: Image(
@@ -334,10 +338,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                                                       image: MemoryImage(
                                                           userData
                                                               .photoBytes!)))
-                                              : Expanded(
-                                                  child: Image.asset(
-                                                      fit: BoxFit.fitHeight,
-                                                      "assets/images/noImage.png")),
+                                              : const SizedBox.shrink(),
                                       const SizedBox(height: 10),
                                       isEditing
                                           ? ElevatedButton(
@@ -348,6 +349,10 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                                     ]))))
                   ])),
         ]);
+  }
+
+  UserData retrieveData() {
+    return userData;
   }
 
   setEditing(bool isEditing) {
