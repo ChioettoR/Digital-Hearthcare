@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:new_dhc/model/end_user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:new_dhc/model/user_data.dart';
+import 'package:new_dhc/model/user_pss.dart';
+import 'package:new_dhc/model/utils.dart';
 
 import '../constants.dart';
 import '../model/citizen.dart';
@@ -186,56 +189,64 @@ class DatabaseService {
     return document[field] == "" ? "-" : document[field];
   }
 
+  List<String> getFieldArrayQuery(
+      QueryDocumentSnapshot document, String field) {
+    try {
+      document.get(FieldPath([field]));
+    } catch (e) {
+      return ["-"];
+    }
+    return List<String>.from(document[field].isEmpty ? ["-"] : document[field]);
+  }
+
   Map<String, PSS> _citizenFromFirebase(
       QuerySnapshot snapshot, Citizen citizen) {
     Map<String, PSS> data = {};
     PSS patient;
+
     for (var element in snapshot.docs) {
       patient = PSS(
-          citizen: citizen,
-          actualPathologies: getFieldQuery(element, "actualPathologies"),
-          adi: getFieldQuery(element, "adi"),
-          adp: getFieldQuery(element, "adp"),
-          adverseReactions: getFieldQuery(element, "adverseReactions"),
-          aids: getFieldQuery(element, "aids"),
-          bloodGroup: getFieldQuery(element, "bloodGroup"),
-          bloodPressure: getFieldQuery(element, "bloodPressure"),
-          rhFactor: getFieldQuery(element, "rhFactor"),
-          bmi: getFieldQuery(element, "bmi"),
-          chronicPathologies: getFieldQuery(element, "chronicPathologies"),
-          chronicPharmacologicalTherapies:
-              getFieldQuery(element, "chronicPharmacologicalTherapies"),
-          mmgBirthDate: getFieldQuery(element, "date"),
-          mmgEmail: getFieldQuery(element, "email"),
-          mmgFirstName: getFieldQuery(element, "firstName"),
-          height: getFieldQuery(element, "height"),
-          mmgLastName: getFieldQuery(element, "lastName"),
-          medicalHistory: getFieldQuery(element, "medicalHistory"),
-          missingOrgans: getFieldQuery(element, "missingOrgans"),
-          motorSkills: getFieldQuery(element, "motorSkills"),
-          organDonation: getFieldQuery(element, "organDonation"),
-          othersPharmacologicalTherapies:
-              getFieldQuery(element, "othersPharmacologicalTherapies"),
-          mmgPec: getFieldQuery(element, "pec"),
-          mmgPhone: getFieldQuery(element, "phone"),
-          pregnancies: getFieldQuery(element, "pregnancies"),
-          prosthetics: getFieldQuery(element, "prosthetics"),
-          relevantMalformations:
-              getFieldQuery(element, "relevantMalformations"),
-          riskFactors: getFieldQuery(element, "riskFactors"),
-          skinAllergies: getFieldQuery(element, "skinAllergies"),
-          transplants: getFieldQuery(element, "transplants"),
-          vaccinations: getFieldQuery(element, "vaccinations"),
-          venomAllergies: getFieldQuery(element, "venomAllergies"),
-          weight: getFieldQuery(element, "weight"),
-          workingActivity: getFieldQuery(element, "workingActivity"),
-          familyHealthHistory: getFieldQuery(element, "familyHealthHistory"),
-          atsCode: getFieldQuery(element, "atsCode"),
-          exemptionCodes: getFieldQuery(element, "exemptionCodes"),
-          userArea: getFieldQuery(element, "userArea"),
-          pathologyNetworks: getFieldQuery(element, "pathologyNetworks"),
-          associations: getFieldQuery(element, "associations"),
-          livesAlone: getFieldQuery(element, "livesAlone"));
+          citizen,
+          getFieldArrayQuery(element, "actualPathologies"),
+          getFieldQuery(element, "adi"),
+          getFieldQuery(element, "adp"),
+          getFieldQuery(element, "adverseReactions"),
+          getFieldQuery(element, "aids"),
+          getFieldQuery(element, "bloodGroup"),
+          getFieldQuery(element, "rhFactor"),
+          getFieldQuery(element, "bloodPressure"),
+          getFieldQuery(element, "bmi"),
+          getFieldArrayQuery(element, "chronicPathologies"),
+          getFieldQuery(element, "chronicPharmacologicalTherapies"),
+          getFieldQuery(element, "date"),
+          getFieldQuery(element, "email"),
+          getFieldQuery(element, "firstName"),
+          getFieldQuery(element, "height"),
+          getFieldQuery(element, "lastName"),
+          getFieldQuery(element, "medicalHistory"),
+          getFieldQuery(element, "missingOrgans"),
+          getFieldQuery(element, "motorSkills"),
+          getFieldQuery(element, "organDonation"),
+          getFieldQuery(element, "othersPharmacologicalTherapies"),
+          getFieldQuery(element, "pec"),
+          getFieldQuery(element, "phone"),
+          getFieldQuery(element, "pregnancies"),
+          getFieldQuery(element, "prosthetics"),
+          getFieldQuery(element, "relevantMalformations"),
+          getFieldQuery(element, "riskFactors"),
+          getFieldQuery(element, "skinAllergies"),
+          getFieldQuery(element, "transplants"),
+          getFieldQuery(element, "vaccinations"),
+          getFieldQuery(element, "venomAllergies"),
+          getFieldQuery(element, "weight"),
+          getFieldQuery(element, "workingActivity"),
+          getFieldQuery(element, "familyHealthHistory"),
+          getFieldQuery(element, "atsCode"),
+          getFieldQuery(element, "exemptionCodes"),
+          getFieldQuery(element, "userArea"),
+          getFieldQuery(element, "pathologyNetworks"),
+          getFieldQuery(element, "associations"),
+          getFieldQuery(element, "livesAlone"));
       data.addAll({fromMillisecondsToDate(element.id): patient});
     }
     return data;
@@ -350,7 +361,100 @@ class DatabaseService {
         snapshot, "secondICEContactPhone", newCitizen.secondICEContactPhone);
   }
 
-  setField(DocumentSnapshot document, String field, String fieldValue) {
+  setField(DocumentSnapshot document, String field, dynamic fieldValue) {
     document.reference.update({field: fieldValue == "-" ? "" : fieldValue});
   }
+
+  createField(DocumentSnapshot document, String field, dynamic fieldValue) {
+    document.reference.set({field: fieldValue == "-" ? "" : fieldValue});
+  }
+
+  createPSS(UserPSS userPSS, String userCF) async {
+    DocumentSnapshot pssSnapshot = await patients
+        .doc(userCF)
+        .collection('pss')
+        .doc(DateTime.now().millisecondsSinceEpoch.toString())
+        .get()
+        .then((value) {
+      return value;
+    });
+
+    createField(pssSnapshot, "actualPathologies",
+        stringToArray(userPSS.actualPathologies.text));
+
+    setField(
+        pssSnapshot,
+        "adi",
+        userPSS.adi.dropDownValue == null
+            ? ""
+            : userPSS.adi.dropDownValue!.value.toString());
+    setField(
+        pssSnapshot,
+        "adp",
+        userPSS.adp.dropDownValue == null
+            ? ""
+            : userPSS.adp.dropDownValue!.value.toString());
+
+    setField(pssSnapshot, "adverseReactions", userPSS.adverseReactions.text);
+    setField(pssSnapshot, "aids", userPSS.aids.text);
+    setField(
+        pssSnapshot,
+        "bloodGroup",
+        userPSS.bloodGroup.dropDownValue == null
+            ? ""
+            : userPSS.bloodGroup.dropDownValue!.value.toString());
+    setField(
+        pssSnapshot,
+        "rhFactor",
+        userPSS.rhFactor.dropDownValue == null
+            ? ""
+            : userPSS.rhFactor.dropDownValue!.value.toString());
+    setField(pssSnapshot, "bloodPressure", userPSS.bloodPressure.text);
+    setField(pssSnapshot, "bmi", userPSS.bmi.text);
+    setField(pssSnapshot, "chronicPathologies",
+        stringToArray(userPSS.chronicPathologies.text));
+    setField(pssSnapshot, "chronicPharmacologicalTherapies",
+        userPSS.chronicPharmacologicalTherapies.text);
+    setField(pssSnapshot, "date", userPSS.mmgBirthDate.text);
+    setField(pssSnapshot, "email", userPSS.mmgEmail.text);
+    setField(pssSnapshot, "firstName", userPSS.mmgFirstName.text);
+    setField(pssSnapshot, "height", userPSS.height.text);
+    setField(pssSnapshot, "lastName", userPSS.mmgLastName.text);
+    setField(pssSnapshot, "medicalHistory", userPSS.medicalHistory.text);
+    setField(pssSnapshot, "missingOrgans", userPSS.missingOrgans.text);
+    setField(pssSnapshot, "motorSkills", userPSS.motorSkills.text);
+    setField(pssSnapshot, "organDonation", userPSS.organDonation.text);
+    setField(pssSnapshot, "othersPharmacologicalTherapies",
+        userPSS.othersPharmacologicalTherapies.text);
+    setField(pssSnapshot, "pec", userPSS.mmgPec.text);
+    setField(pssSnapshot, "phone", userPSS.mmgPhone.text);
+    setField(pssSnapshot, "pregnancies", userPSS.pregnancies.text);
+    setField(pssSnapshot, "prosthetics", userPSS.prosthetics.text);
+    setField(pssSnapshot, "relevantMalformations",
+        userPSS.relevantMalformations.text);
+    setField(pssSnapshot, "riskFactors", userPSS.riskFactors.text);
+    setField(pssSnapshot, "skinAllergies", userPSS.skinAllergies.text);
+    setField(pssSnapshot, "transplants", userPSS.transplants.text);
+    setField(pssSnapshot, "vaccinations", userPSS.vaccinations.text);
+    setField(pssSnapshot, "venomAllergies", userPSS.venomAllergies.text);
+    setField(pssSnapshot, "weight", userPSS.weight.text);
+    setField(pssSnapshot, "workingActivity", userPSS.workingActivity.text);
+    setField(
+        pssSnapshot, "familyHealthHistory", userPSS.familyHealthHistory.text);
+    setField(pssSnapshot, "atsCode", userPSS.atsCode.text);
+    setField(pssSnapshot, "exemptionCodes", userPSS.exemptionCodes.text);
+    setField(pssSnapshot, "userArea", userPSS.userArea.text);
+    setField(pssSnapshot, "pathologyNetworks", userPSS.pathologyNetworks.text);
+    setField(pssSnapshot, "associations", userPSS.associations.text);
+    setField(
+        pssSnapshot,
+        "livesAlone",
+        userPSS.livesAlone.dropDownValue == null
+            ? ""
+            : userPSS.livesAlone.dropDownValue!.value.toString());
+  }
+
+  createUser(UserData userData) async {}
+
+  deleteUser(String userCF) async {}
 }

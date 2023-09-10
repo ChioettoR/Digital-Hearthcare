@@ -8,16 +8,17 @@ class CustomDropdownEditField extends StatelessWidget {
   final dynamic validation;
   final bool onlyNumbers;
   final int? maxLength;
+  final List<DropDownValueModel> dropDownList;
 
-  const CustomDropdownEditField(
-      this.initialValue, this.isEditing, this.myController, this.onlyNumbers,
+  const CustomDropdownEditField(this.initialValue, this.isEditing,
+      this.myController, this.onlyNumbers, this.dropDownList,
       {super.key, this.validation, this.maxLength});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 200,
-        height: 50,
+        width: 220,
+        height: 53,
         child: DropDownTextField(
           controller: myController,
           clearOption: false,
@@ -25,7 +26,7 @@ class CustomDropdownEditField extends StatelessWidget {
           isEnabled: isEditing,
           validator: validation,
           textFieldDecoration: InputDecoration(
-            hintText: initialValue == "-" ? "" : initialValue,
+            hintText: initialValue == "-" ? " " : initialValue,
             border: InputBorder.none,
             isDense: true,
           ),
@@ -35,10 +36,7 @@ class CustomDropdownEditField extends StatelessWidget {
           clearIconProperty: IconProperty(size: isEditing ? 14 : 0),
           // dropdownColor: Colors.green,
           dropDownItemCount: 2,
-          dropDownList: const [
-            DropDownValueModel(name: 'Uomo', value: "Uomo"),
-            DropDownValueModel(name: 'Donna', value: "Donna"),
-          ],
+          dropDownList: dropDownList,
         ));
   }
 }

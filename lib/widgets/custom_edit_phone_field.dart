@@ -14,7 +14,7 @@ class CustomEditPhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 200,
+        width: 220,
         child: TextFormField(
           scrollController: scrollController,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -27,7 +27,7 @@ class CustomEditPhoneField extends StatelessWidget {
           validator: validatePhoneNumber,
           decoration: InputDecoration(
             helperText: " ",
-            hintText: initialValue == "-" ? "" : initialValue,
+            hintText: initialValue == "-" ? " " : initialValue,
             errorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent),
             ),

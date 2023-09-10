@@ -80,7 +80,7 @@ class EmergencyNumbers extends StatelessWidget {
                         const Icon(Icons.local_hospital),
                         doctor!.fullName(),
                         "Medico di base",
-                        doctor!.phone == "-" ? "Non fornito" : doctor!.phone!,
+                        doctor!.phone == "-" ? "Non fornito" : doctor!.phone,
                         doctor!.email == "-" ? "Non fornito" : doctor!.email),
                     NumbersCard(
                         const Icon(Icons.work),
@@ -107,7 +107,7 @@ class EmergencyNumbers extends StatelessWidget {
                   const Icon(Icons.local_hospital),
                   doctor!.fullName(),
                   "Medico di base",
-                  doctor!.phone == "-" ? "Non fornito" : doctor!.phone!,
+                  doctor!.phone == "-" ? "Non fornito" : doctor!.phone,
                   doctor!.email == "-" ? "Non fornito" : doctor!.email),
               NumbersCard(
                   const Icon(Icons.work),

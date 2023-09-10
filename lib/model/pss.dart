@@ -1,52 +1,53 @@
 import 'package:new_dhc/model/citizen.dart';
+import 'package:new_dhc/model/utils.dart';
 
 import '../constants.dart';
 
 class PSS {
   Citizen citizen;
-  String? actualPathologies;
-  String? adi;
-  String? adp;
-  String? adverseReactions;
-  String? aids;
-  String? bloodGroup;
-  String? rhFactor;
-  String? bloodPressure;
-  String? bmi;
-  String? chronicPathologies;
-  String? chronicPharmacologicalTherapies;
-  String? mmgBirthDate;
-  String? mmgEmail;
-  String? mmgFirstName;
-  String? height;
-  String? mmgLastName;
-  String? medicalHistory;
-  String? missingOrgans;
-  String? motorSkills;
-  String? organDonation;
-  String? othersPharmacologicalTherapies;
-  String? mmgPec;
-  String? mmgPhone;
-  String? pregnancies;
-  String? prosthetics;
-  String? relevantMalformations;
-  String? riskFactors;
-  String? skinAllergies;
-  String? transplants;
-  String? vaccinations;
-  String? venomAllergies;
-  String? weight;
-  String? workingActivity;
-  String? familyHealthHistory;
-  String? atsCode;
-  String? exemptionCodes;
-  String? userArea;
-  String? pathologyNetworks;
-  String? associations;
-  String? livesAlone;
+  List<String?> actualPathologies;
+  String adi;
+  String adp;
+  String adverseReactions;
+  String aids;
+  String bloodGroup;
+  String rhFactor;
+  String bloodPressure;
+  String bmi;
+  List<String?> chronicPathologies;
+  String chronicPharmacologicalTherapies;
+  String mmgBirthDate;
+  String mmgEmail;
+  String mmgFirstName;
+  String height;
+  String mmgLastName;
+  String medicalHistory;
+  String missingOrgans;
+  String motorSkills;
+  String organDonation;
+  String othersPharmacologicalTherapies;
+  String mmgPec;
+  String mmgPhone;
+  String pregnancies;
+  String prosthetics;
+  String relevantMalformations;
+  String riskFactors;
+  String skinAllergies;
+  String transplants;
+  String vaccinations;
+  String venomAllergies;
+  String weight;
+  String workingActivity;
+  String familyHealthHistory;
+  String atsCode;
+  String exemptionCodes;
+  String userArea;
+  String pathologyNetworks;
+  String associations;
+  String livesAlone;
 
   PSS(
-      {required this.citizen,
+      this.citizen,
       this.actualPathologies,
       this.adi,
       this.adp,
@@ -86,10 +87,10 @@ class PSS {
       this.userArea,
       this.pathologyNetworks,
       this.associations,
-      this.livesAlone});
+      this.livesAlone);
 
   setDoctorsInfo(String mmgFirstName, String mmgLastName, String mmgEmail,
-      String? mmgPhone) {
+      String mmgPhone) {
     this.mmgFirstName = mmgFirstName;
     this.mmgLastName = mmgLastName;
     this.mmgEmail = mmgEmail;
@@ -113,7 +114,7 @@ class PSS {
     String? secondICEContactInfo = citizen.secondICEContactInfo;
     String? secondICEContactPhone = citizen.secondICEContactPhone;
 
-    return "$datiSalvavita${aCapo}Nome: $firstName$space$lastName${aCapo}Data di nascita: $dateOfBirth${aCapo}Gruppo sanguigno:$bloodGroup$rhFactor${aCapo}Contatto ICE1: $firstICEContactInfo$dash$firstICEContactPhone${aCapo}Contatto ICE2: $secondICEContactInfo$dash$secondICEContactPhone${aCapo}Allergie: $skinAllergies${aCapo}Patologie in atto: $actualPathologies${aCapo}Patologie croniche: $chronicPathologies${aCapo}Terapie: $chronicPharmacologicalTherapies";
+    return "$datiSalvavita${aCapo}Nome: $firstName$space$lastName${aCapo}Data di nascita: $dateOfBirth${aCapo}Gruppo sanguigno: $bloodGroup${getRhFactor()}${aCapo}Contatto ICE1: $firstICEContactInfo$dash$firstICEContactPhone${aCapo}Contatto ICE2: $secondICEContactInfo$dash$secondICEContactPhone${aCapo}Allergie: $skinAllergies${aCapo}Patologie in atto: ${arrayToString(actualPathologies)}${aCapo}Patologie croniche: ${arrayToString(chronicPathologies)}${aCapo}Terapie: $chronicPharmacologicalTherapies";
   }
 
   Map<String, String?> toMapPSSSectionZero() {
@@ -178,8 +179,8 @@ class PSS {
   //patologie e terapie
   Map<String, String?> toMapPSSSectionFour() {
     return {
-      'Patologie croniche rilevanti': chronicPathologies,
-      'Patologie in atto': actualPathologies,
+      'Patologie croniche rilevanti': arrayToString(chronicPathologies),
+      'Patologie in atto': arrayToString(actualPathologies),
       'Terapie farmacologiche croniche': chronicPharmacologicalTherapies,
       'Terapie farmacologiche': othersPharmacologicalTherapies,
       "Anamnesi Famigliari": familyHealthHistory,
@@ -242,8 +243,8 @@ class PSS {
   Map<String, String?> toMapSheetSectionFour() {
     return {
       'Gruppo sanguigno': bloodGroup,
-      'Fattore Rh': bloodGroup,
-      'Patologie': chronicPathologies,
+      'Fattore Rh': rhFactor,
+      'Patologie': arrayToString(chronicPathologies),
       'Allergie ed intolleranze gravi': skinAllergies
     };
   }
@@ -256,8 +257,8 @@ class PSS {
       'Contatto ICE1': citizen.firstICEContactInfo,
       'Contatto ICE2': citizen.secondICEContactInfo,
       'Allergie': skinAllergies,
-      'Patologie in atto': actualPathologies,
-      'Patologie croniche': chronicPathologies,
+      'Patologie in atto': arrayToString(actualPathologies),
+      'Patologie croniche': arrayToString(chronicPathologies),
       'Terapie': othersPharmacologicalTherapies
     };
   }

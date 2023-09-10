@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:new_dhc/constants.dart';
 import 'package:new_dhc/model/user_data.dart';
+import 'package:new_dhc/widgets/volunteer_data_fields.dart';
+import 'package:new_dhc/widgets/volunteer_pss_fields.dart';
+import 'package:new_dhc/services/database_service.dart';
 import 'package:new_dhc/wrapper.dart';
 
 class AddPSSScreen extends StatefulWidget {
@@ -17,6 +20,7 @@ class AddPSSScreen extends StatefulWidget {
 
 class _AddPSSScreenState extends State<AddPSSScreen> {
   final _editingFormKey = GlobalKey<FormState>();
+  final _volunteerPSSFieldsKey = GlobalKey<VolunteerPSSFieldsState>();
 
   @override
   void initState() {
@@ -64,14 +68,38 @@ class _AddPSSScreenState extends State<AddPSSScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 25)),
                       const SizedBox(height: 32),
-                      //volunteerDataFields,
+                      VolunteerPSSFields(
+                          key: _volunteerPSSFieldsKey,
+                          widget.newUser
+                              ? widget.createdUserData!.cf.text
+                              : widget.userCF!),
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          if (!_editingFormKey.currentState!.validate()) {}
+                          if (_editingFormKey.currentState!.validate()) {
+                            createData();
+                          }
                         },
                         child: const Text('Conferma'),
                       )
                     ]))));
+  }
+
+  createData() async {
+    if (widget.newUser) {
+      await DatabaseService().createUser(widget.createdUserData!);
+    }
+
+    await DatabaseService().createPSS(
+        _volunteerPSSFieldsKey.currentState!.retrieveData(),
+        widget.newUser ? widget.createdUserData!.cf.text : widget.userCF!);
+
+    moveToHomepage();
+  }
+
+  moveToHomepage() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const Wrapper()),
+        (Route<dynamic> route) => false);
   }
 }

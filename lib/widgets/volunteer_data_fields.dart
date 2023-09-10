@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -42,7 +43,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
   Widget build(BuildContext context) {
     return OverflowBar(
         alignment: MainAxisAlignment.start,
-        overflowSpacing: 10,
+        overflowSpacing: 15,
         overflowAlignment: OverflowBarAlignment.start,
         children: [
           SizedBox(
@@ -89,7 +90,10 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomDropdownEditField(widget.citizen?.genre, isEditing,
-                        userData.genre, false),
+                        userData.genre, false, const [
+                      DropDownValueModel(name: 'Uomo', value: "Uomo"),
+                      DropDownValueModel(name: 'Donna', value: "Donna"),
+                    ]),
                     const SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.left,
@@ -174,8 +178,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(widget.citizen?.domicileAddress, isEditing,
-                        userData.domicileAddress, false,
-                        validation: formValidation),
+                        userData.domicileAddress, false),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
@@ -184,7 +187,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                     ),
                     CustomEditField(widget.citizen?.domicileProvince, isEditing,
                         userData.domicileProvince, false,
-                        maxLength: 3, validation: formValidation),
+                        maxLength: 3),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
@@ -207,8 +210,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(widget.citizen?.firstICEContactInfo,
-                        isEditing, userData.firstICEContactInfo, false,
-                        validation: formValidation),
+                        isEditing, userData.firstICEContactInfo, false),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
@@ -224,8 +226,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(widget.citizen?.secondICEContactInfo,
-                        isEditing, userData.secondICEContactInfo, false,
-                        validation: formValidation),
+                        isEditing, userData.secondICEContactInfo, false),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
@@ -241,8 +242,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(widget.citizen?.infoCaregiver, isEditing,
-                        userData.infoCaregiver, false,
-                        validation: formValidation),
+                        userData.infoCaregiver, false),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
@@ -258,8 +258,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(
-                        widget.citizen?.crs, isEditing, userData.crs, true,
-                        validation: formValidation)
+                        widget.citizen?.crs, isEditing, userData.crs, true)
                   ])),
           SizedBox(
               width: 250,
@@ -274,7 +273,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                     ),
                     CustomEditField(widget.citizen?.idCardNumber, isEditing,
                         userData.idCardNumber, false,
-                        maxLength: 9, validation: formValidation),
+                        maxLength: 9, validation: idCardValidation),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
@@ -282,8 +281,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomEditField(widget.citizen?.idCardReleaseCity,
-                        isEditing, userData.idCardReleaseCity, false,
-                        validation: formValidation),
+                        isEditing, userData.idCardReleaseCity, false),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,

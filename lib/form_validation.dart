@@ -12,20 +12,9 @@ String? validatePhoneNumber(String? phoneNumber) {
   return valid ? null : "Numero non valido";
 }
 
-String? formValidation(String? value) {
-  if (value == null || value.isEmpty || value == '-') {
-    return null;
-  } else if (value.length > 50) {
-    return 'Massimo 50 caratteri consentiti';
-  }
-  return null;
-}
-
 String? mandatoryFormValidation(String? value) {
   if (value == null || value.isEmpty || value == '-') {
     return 'Campo obbligatorio';
-  } else if (value.length > 50) {
-    return 'Massimo 50 caratteri consentiti';
   }
   return null;
 }
@@ -95,8 +84,8 @@ String? capValidation(String? value) {
 }
 
 String? idCardValidation(String? value) {
-  if (value != null && value.isNotEmpty && value.length < 5) {
-    return 'Inserire 5 cifre';
+  if (value != null && value.isNotEmpty && value.length < 9) {
+    return 'Inserire 9 cifre';
   }
   return null;
 }

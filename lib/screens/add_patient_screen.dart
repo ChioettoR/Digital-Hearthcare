@@ -66,8 +66,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          if (!_editingFormKey.currentState!.validate()) {
-                            addNewPSS();
+                          if (_editingFormKey.currentState!.validate()) {
+                            moveToPSSCreationScreen();
                           }
                         },
                         child: const Text('Prosegui'),
@@ -75,7 +75,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     ]))));
   }
 
-  addNewPSS() {
+  moveToPSSCreationScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(

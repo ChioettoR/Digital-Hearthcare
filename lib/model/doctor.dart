@@ -5,8 +5,8 @@ class Doctor {
   String firstName;
   String lastName;
   String email;
-  String? pec;
-  String? phone;
+  String pec;
+  String phone;
 
   Doctor(
     this.cf,

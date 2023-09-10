@@ -9,16 +9,21 @@ class CustomEditField extends StatelessWidget {
   final dynamic validation;
   final bool onlyNumbers;
   final int? maxLength;
+  final String? hintText;
   final ScrollController scrollController = ScrollController();
 
   CustomEditField(
       this.initialValue, this.isEditing, this.myController, this.onlyNumbers,
-      {super.key, this.onTapFunction, this.validation, this.maxLength});
+      {super.key,
+      this.onTapFunction,
+      this.validation,
+      this.maxLength,
+      this.hintText});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 200,
+        width: 220,
         child: TextFormField(
           scrollController: scrollController,
           readOnly: onTapFunction != null,
@@ -33,7 +38,9 @@ class CustomEditField extends StatelessWidget {
           validator: validation,
           decoration: InputDecoration(
             helperText: " ",
-            hintText: initialValue == "-" ? "" : initialValue,
+            hintText: (initialValue == null || initialValue == "-")
+                ? (hintText ?? " ")
+                : initialValue,
             errorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
             ),
