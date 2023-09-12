@@ -89,7 +89,8 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
   addNewPatient() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const AddPatientScreen()),
+      MaterialPageRoute(
+          builder: (context) => AddPatientScreen(widget.volunteer.cf)),
     );
   }
 

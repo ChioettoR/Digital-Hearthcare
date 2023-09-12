@@ -26,6 +26,12 @@ class VolunteerPSSFieldsState extends State<VolunteerPSSFields> {
   }
 
   @override
+  void dispose() {
+    userPSS.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return OverflowBar(
         alignment: MainAxisAlignment.start,

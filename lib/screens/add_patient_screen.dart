@@ -5,7 +5,9 @@ import 'package:new_dhc/widgets/volunteer_data_fields.dart';
 import 'package:new_dhc/wrapper.dart';
 
 class AddPatientScreen extends StatefulWidget {
-  const AddPatientScreen({super.key});
+  final String volunteerCF;
+
+  const AddPatientScreen(this.volunteerCF, {super.key});
 
   @override
   State<AddPatientScreen> createState() => _AddPatientScreenState();
@@ -66,7 +68,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          if (_editingFormKey.currentState!.validate()) {
+                          if (!_editingFormKey.currentState!.validate()) {
                             moveToPSSCreationScreen();
                           }
                         },
@@ -81,7 +83,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       MaterialPageRoute(
           builder: (context) => AddPSSScreen(true,
               createdUserData:
-                  _volunteerDataFieldsKey.currentState!.retrieveData())),
+                  _volunteerDataFieldsKey.currentState!.retrieveData(),
+              volunteerCF: widget.volunteerCF)),
     );
   }
 }

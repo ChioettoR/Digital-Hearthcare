@@ -163,4 +163,32 @@ class UserData {
     secondICEContactPhone.text = currentCitizen!.secondICEContactPhone;
     photoUrl = currentCitizen!.photoUrl;
   }
+
+  dispose() {
+    firstName.dispose();
+    lastName.dispose();
+    cf.dispose();
+    genre.dispose();
+    dateOfBirth.dispose();
+    cityOfBirth.dispose();
+    provinceOfBirth.dispose();
+    idCardNumber.dispose();
+    idCardReleaseCity.dispose();
+    idCardReleaseDate.dispose();
+    idCardExpirationDate.dispose();
+    domicile.dispose();
+    domicileAddress.dispose();
+    domicileProvince.dispose();
+    domicileCap.dispose();
+    crs.dispose();
+    email.dispose();
+    pec.dispose();
+    phone.dispose();
+    firstICEContactInfo.dispose();
+    firstICEContactPhone.dispose();
+    secondICEContactInfo.dispose();
+    secondICEContactPhone.dispose();
+    infoCaregiver.dispose();
+    phoneCaregiver.dispose();
+  }
 }

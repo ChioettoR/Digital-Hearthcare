@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:new_dhc/constants.dart';
 import 'package:new_dhc/model/user_data.dart';
-import 'package:new_dhc/widgets/volunteer_data_fields.dart';
+import 'package:new_dhc/model/user_pss.dart';
 import 'package:new_dhc/widgets/volunteer_pss_fields.dart';
 import 'package:new_dhc/services/database_service.dart';
 import 'package:new_dhc/wrapper.dart';
 
 class AddPSSScreen extends StatefulWidget {
   final UserData? createdUserData;
+  final String? volunteerCF;
   final bool newUser;
   final String? userCF;
 
   const AddPSSScreen(this.newUser,
-      {this.createdUserData, this.userCF, super.key});
+      {this.createdUserData, this.volunteerCF, this.userCF, super.key});
 
   @override
   State<AddPSSScreen> createState() => _AddPSSScreenState();
@@ -86,13 +87,18 @@ class _AddPSSScreenState extends State<AddPSSScreen> {
   }
 
   createData() async {
-    if (widget.newUser) {
-      await DatabaseService().createUser(widget.createdUserData!);
-    }
+    UserPSS userPSS = _volunteerPSSFieldsKey.currentState!.retrieveData();
 
-    await DatabaseService().createPSS(
-        _volunteerPSSFieldsKey.currentState!.retrieveData(),
-        widget.newUser ? widget.createdUserData!.cf.text : widget.userCF!);
+    if (widget.newUser) {
+      bool result = await DatabaseService()
+          .createUser(widget.createdUserData!, widget.volunteerCF!);
+      if (result) {
+        await DatabaseService()
+            .createPSS(userPSS, widget.createdUserData!.cf.text);
+      }
+    } else {
+      await DatabaseService().createPSS(userPSS, widget.userCF!);
+    }
 
     moveToHomepage();
   }
@@ -101,5 +107,6 @@ class _AddPSSScreenState extends State<AddPSSScreen> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false);
+    if (widget.newUser) widget.createdUserData!.dispose();
   }
 }

@@ -454,7 +454,55 @@ class DatabaseService {
             : userPSS.livesAlone.dropDownValue!.value.toString());
   }
 
-  createUser(UserData userData) async {}
+  Future<bool> createUser(UserData userData, String cfVolunteer) async {
+    String? newUserUid = await AuthService().createUser(userData.email.text);
+    if (newUserUid != null) {
+      await users.doc(newUserUid).get().then((value) => {
+            createField(value, "cf", userData.cf.text),
+            setField(value, "email", userData.email.text),
+            setField(value, "firstName", userData.firstName.text),
+            setField(value, "lastName", userData.lastName.text),
+            setField(value, "pec", userData.pec.text),
+            setField(value, "phone", userData.phone.text),
+            setField(value, "photoUrl", userData.photoUrl),
+            setField(value, "userType", "cittadino"),
+          });
+      await patients.doc(userData.cf.text).get().then((value) => {
+            createField(value, "cfVolunteer", cfVolunteer),
+            setField(value, "cityOfBirth", userData.cityOfBirth.text),
+            setField(value, "crs", userData.crs.text),
+            setField(value, "dateOfBirth", userData.dateOfBirth.text),
+            setField(value, "domicile", userData.domicile.text),
+            setField(value, "domicileAddress", userData.domicileAddress.text),
+            setField(value, "domicileCap", userData.domicileCap.text),
+            setField(value, "domicileProvince", userData.domicileProvince.text),
+            setField(value, "firstICEContactInfo",
+                userData.firstICEContactInfo.text),
+            setField(value, "firstICEContactPhone",
+                userData.firstICEContactPhone.text),
+            setField(value, "secondICEContactInfo",
+                userData.secondICEContactInfo.text),
+            setField(value, "secondICEContactPhone",
+                userData.secondICEContactPhone.text),
+            setField(
+                value,
+                "genre",
+                userData.genre.dropDownValue == null
+                    ? ""
+                    : userData.genre.dropDownValue!.value.toString()),
+            setField(value, "idCardExpirationDate",
+                userData.idCardExpirationDate.text),
+            setField(value, "idCardNumber", userData.idCardNumber.text),
+            setField(
+                value, "idCardReleaseCity", userData.idCardReleaseCity.text),
+            setField(value, "infoCaregiver", userData.infoCaregiver.text),
+            setField(value, "phoneCaregiver", userData.phoneCaregiver.text),
+            setField(value, "provinceOfBirth", userData.provinceOfBirth.text),
+          });
+      return true;
+    }
+    return false;
+  }
 
   deleteUser(String userCF) async {}
 }

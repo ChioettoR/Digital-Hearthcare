@@ -85,4 +85,47 @@ class UserPSS {
     associations = TextEditingController();
     livesAlone = SingleValueDropDownController();
   }
+
+  dispose() {
+    actualPathologies.dispose();
+    adi.dispose();
+    adp.dispose();
+    adverseReactions.dispose();
+    aids.dispose();
+    bloodGroup.dispose();
+    rhFactor.dispose();
+    bloodPressure.dispose();
+    bmi.dispose();
+    chronicPathologies.dispose();
+    chronicPharmacologicalTherapies.dispose();
+    othersPharmacologicalTherapies.dispose();
+    mmgBirthDate.dispose();
+    mmgEmail.dispose();
+    mmgFirstName.dispose();
+    mmgLastName.dispose();
+    medicalHistory.dispose();
+    mmgPec.dispose();
+    mmgPhone.dispose();
+    pregnancies.dispose();
+    prosthetics.dispose();
+    relevantMalformations.dispose();
+    riskFactors.dispose();
+    skinAllergies.dispose();
+    transplants.dispose();
+    vaccinations.dispose();
+    venomAllergies.dispose();
+    weight.dispose();
+    height.dispose();
+    missingOrgans.dispose();
+    organDonation.dispose();
+    motorSkills.dispose();
+    workingActivity.dispose();
+    familyHealthHistory.dispose();
+    atsCode.dispose();
+    exemptionCodes.dispose();
+    userArea.dispose();
+    pathologyNetworks.dispose();
+    associations.dispose();
+    livesAlone.dispose();
+  }
 }

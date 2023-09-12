@@ -40,6 +40,12 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
   }
 
   @override
+  void dispose() {
+    if (!widget.newData) userData.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return OverflowBar(
         alignment: MainAxisAlignment.start,
