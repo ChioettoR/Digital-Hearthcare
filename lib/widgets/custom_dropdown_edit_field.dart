@@ -6,17 +6,18 @@ class CustomDropdownEditField extends StatelessWidget {
   final String? initialValue;
   final bool isEditing;
   final DropDownEditingController myController;
+  final dynamic validation;
   final List<String> dropDownList;
 
   const CustomDropdownEditField(
       this.initialValue, this.isEditing, this.myController, this.dropDownList,
-      {super.key});
+      {super.key, this.validation});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: 220,
-        height: 53,
+        height: 83,
         child: DropdownSearch<String>(
             key: myController.key,
             selectedItem: initialValue,
@@ -34,6 +35,7 @@ class CustomDropdownEditField extends StatelessWidget {
               FocusScope.of(context).requestFocus(FocusNode());
               myController.text = value;
             },
+            validator: validation,
             dropdownDecoratorProps: DropDownDecoratorProps(
               dropdownSearchDecoration: InputDecoration(
                   border: InputBorder.none,

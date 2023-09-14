@@ -65,7 +65,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                               fontSize: 25)),
                       const SizedBox(height: 32),
                       volunteerDataFields,
-                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           if (!_editingFormKey.currentState!.validate()) {

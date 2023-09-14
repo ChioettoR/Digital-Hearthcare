@@ -29,10 +29,10 @@ class CustomEditPhoneField extends StatelessWidget {
             helperText: " ",
             hintText: initialValue == "-" ? " " : initialValue,
             errorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black),
+              borderSide: BorderSide(color: Colors.redAccent),
             ),
             focusedErrorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black),
+              borderSide: BorderSide(color: Colors.redAccent),
             ),
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.black),

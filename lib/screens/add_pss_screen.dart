@@ -74,7 +74,6 @@ class _AddPSSScreenState extends State<AddPSSScreen> {
                           widget.newUser
                               ? widget.createdUserData!.cf.text
                               : widget.userCF!),
-                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           if (_editingFormKey.currentState!.validate()) {

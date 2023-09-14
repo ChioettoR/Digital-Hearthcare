@@ -83,7 +83,7 @@ class _VolunteerCardState extends State<VolunteerCard> {
               leading: const Icon(Icons.boy_rounded),
               children: [
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 32, 16),
+                    padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
                     child: Form(
                         autovalidateMode: AutovalidateMode.disabled,
                         key: _editingFormKey,
@@ -92,12 +92,10 @@ class _VolunteerCardState extends State<VolunteerCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               volunteerDataFields,
-                              const SizedBox(height: 20),
                               isEditing
-                                  ? OverflowBar(
+                                  ? Wrap(
                                       spacing: 20,
-                                      overflowSpacing: 20,
-                                      alignment: MainAxisAlignment.start,
+                                      runSpacing: 20,
                                       children: [
                                           ElevatedButton(
                                             onPressed: () {
