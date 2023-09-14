@@ -48,7 +48,6 @@ class DatabaseService {
   Future<List<dynamic>> getCitizen(EndUser endUser) async {
     List<dynamic> citizenData = [];
     late String cfVolunteer;
-    late String cfDoctor;
     late String dateOfBirth;
     late String genre;
     late String domicile;
@@ -75,7 +74,6 @@ class DatabaseService {
 
     await patients.doc(endUser.cf).get().then((value) => {
           cfVolunteer = getField(value, "cfVolunteer"),
-          cfDoctor = getField(value, "cfDoctor"),
           dateOfBirth = getField(value, "dateOfBirth"),
           cityOfBirth = getField(value, "cityOfBirth"),
           provinceOfBirth = getField(value, "provinceOfBirth"),
@@ -107,7 +105,6 @@ class DatabaseService {
         endUser.pec,
         endUser.phone,
         cfVolunteer,
-        cfDoctor,
         dateOfBirth,
         cityOfBirth,
         provinceOfBirth,
@@ -148,25 +145,17 @@ class DatabaseService {
 
     citizenData.add(volunteer);
 
-    try {
-      doctor = await users.where('cf', isEqualTo: cfDoctor).get().then(
-          (querySnapshot) => Doctor(
-              getFieldQuery(querySnapshot.docs[0], "cf"),
-              getFieldQuery(querySnapshot.docs[0], "firstName"),
-              getFieldQuery(querySnapshot.docs[0], "lastName"),
-              getFieldQuery(querySnapshot.docs[0], "email"),
-              getFieldQuery(querySnapshot.docs[0], "pec"),
-              getFieldQuery(querySnapshot.docs[0], "phone")));
-    } catch (_) {
-      doctor = Doctor(cfDoctor, "-", "-", "-", "-", "-");
-    }
+    final lastPSS = citizenMap![citizenMap!.keys.last]!;
+
+    doctor = Doctor(
+        lastPSS.mmgCf.isEmpty ? "-" : lastPSS.mmgCf,
+        lastPSS.mmgFirstName.isEmpty ? "-" : lastPSS.mmgFirstName,
+        lastPSS.mmgLastName.isEmpty ? "-" : lastPSS.mmgLastName,
+        lastPSS.mmgEmail.isEmpty ? "-" : lastPSS.mmgEmail,
+        lastPSS.mmgPec.isEmpty ? "-" : lastPSS.mmgPec,
+        lastPSS.mmgPhone.isEmpty ? "-" : lastPSS.mmgPhone);
 
     citizenData.add(doctor);
-
-    for (var v in citizenMap!.values) {
-      v.setDoctorsInfo(
-          doctor!.firstName, doctor.lastName, doctor.email, doctor.phone);
-    }
 
     return citizenData;
   }
@@ -218,6 +207,7 @@ class DatabaseService {
           getFieldQuery(element, "bmi"),
           getFieldArrayQuery(element, "chronicPathologies"),
           getFieldQuery(element, "chronicPharmacologicalTherapies"),
+          getFieldQuery(element, "cf"),
           getFieldQuery(element, "date"),
           getFieldQuery(element, "email"),
           getFieldQuery(element, "firstName"),
@@ -268,7 +258,6 @@ class DatabaseService {
                       emptyString,
                       emptyString,
                       cf,
-                      getFieldQuery(e, "cfDoctor"),
                       getFieldQuery(e, "dateOfBirth"),
                       getFieldQuery(e, "cityOfBirth"),
                       getFieldQuery(e, "provinceOfBirth"),
@@ -394,6 +383,7 @@ class DatabaseService {
         stringToArray(userPSS.chronicPathologies.text));
     setField(pssSnapshot, "chronicPharmacologicalTherapies",
         userPSS.chronicPharmacologicalTherapies.text);
+    setField(pssSnapshot, "cf", userPSS.mmgCf.text);
     setField(pssSnapshot, "date", userPSS.mmgBirthDate.text);
     setField(pssSnapshot, "email", userPSS.mmgEmail.text);
     setField(pssSnapshot, "firstName", userPSS.mmgFirstName.text);

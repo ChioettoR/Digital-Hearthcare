@@ -3,7 +3,6 @@ import 'package:new_dhc/model/pss.dart';
 
 class Citizen extends EndUser {
   String cfVolunteer;
-  String cfDoctor;
   String dateOfBirth;
   String cityOfBirth;
   String provinceOfBirth;
@@ -34,7 +33,6 @@ class Citizen extends EndUser {
       String pec,
       String phone,
       this.cfVolunteer,
-      this.cfDoctor,
       this.dateOfBirth,
       this.cityOfBirth,
       this.provinceOfBirth,

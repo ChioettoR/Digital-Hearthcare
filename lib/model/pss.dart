@@ -16,6 +16,7 @@ class PSS {
   String bmi;
   List<String?> chronicPathologies;
   String chronicPharmacologicalTherapies;
+  String mmgCf;
   String mmgBirthDate;
   String mmgEmail;
   String mmgFirstName;
@@ -59,6 +60,7 @@ class PSS {
       this.bmi,
       this.chronicPathologies,
       this.chronicPharmacologicalTherapies,
+      this.mmgCf,
       this.mmgBirthDate,
       this.mmgEmail,
       this.mmgFirstName,
@@ -88,14 +90,6 @@ class PSS {
       this.pathologyNetworks,
       this.associations,
       this.livesAlone);
-
-  setDoctorsInfo(String mmgFirstName, String mmgLastName, String mmgEmail,
-      String mmgPhone) {
-    this.mmgFirstName = mmgFirstName;
-    this.mmgLastName = mmgLastName;
-    this.mmgEmail = mmgEmail;
-    this.mmgPhone = mmgPhone;
-  }
 
   String getRhFactor() {
     if (rhFactor == "Positivo") {
