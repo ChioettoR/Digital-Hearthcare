@@ -1,5 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:intl/intl.dart';
+import 'package:new_dhc/services/auth_service.dart';
+import 'package:new_dhc/services/database_service.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 String? validatePhoneNumber(String? phoneNumber) {
@@ -12,6 +14,44 @@ String? validatePhoneNumber(String? phoneNumber) {
   return valid ? null : "Numero non valido";
 }
 
+String? registrationEmailValidation(
+    String? value, String? initialValue, bool asyncValidationPassed) {
+  if (value == null || value.isEmpty || value == '-') {
+    return 'Campo obbligatorio';
+  } else if (value.length > 254) {
+    return 'Massimo 254 caratteri consentiti';
+  } else if (!EmailValidator.validate(value)) {
+    return 'L\'email inserita non è valida';
+  } else if (initialValue != null && value == initialValue) {
+    return null;
+  } else if (!asyncValidationPassed) {
+    return 'L\'email inserita è già in uso';
+  }
+  return null;
+}
+
+String? registrationCFValidation(
+    String? value, String? initialValue, bool asyncValidationPassed) {
+  if (value == null || value.isEmpty || value == '-') {
+    return 'Campo obbligatorio';
+  } else if (value.length < 16) {
+    return 'Inserire 16 caratteri';
+  } else if (initialValue != null && value == initialValue) {
+    return null;
+  } else if (!asyncValidationPassed) {
+    return 'Il CF inserito è già in uso';
+  }
+  return null;
+}
+
+Future<bool?> registrationEmailAsyncValidation(String value) async {
+  return (!await AuthService().checkIfEmailInUse(value));
+}
+
+Future<bool?> registrationCFAsyncValidation(String value) async {
+  return (!await DatabaseService().checkIfCFInUse(value));
+}
+
 String? mandatoryFormValidation(String? value) {
   if (value == null || value.isEmpty || value == '-') {
     return 'Campo obbligatorio';
@@ -20,9 +60,7 @@ String? mandatoryFormValidation(String? value) {
 }
 
 String? cfValidation(String? value) {
-  if (value == null || value.isEmpty || value == '-') {
-    return 'Campo obbligatorio';
-  } else if (value.length < 16) {
+  if (value != null && value.isNotEmpty && value.length < 16) {
     return 'Inserire 16 caratteri';
   }
   return null;

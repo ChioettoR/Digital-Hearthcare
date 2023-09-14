@@ -42,16 +42,16 @@ class CustomEditField extends StatelessWidget {
                 ? (hintText ?? " ")
                 : initialValue,
             errorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
+              borderSide: BorderSide(color: Colors.black),
             ),
             focusedErrorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
+              borderSide: BorderSide(color: Colors.black),
             ),
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
+              borderSide: BorderSide(color: Colors.black),
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
+              borderSide: BorderSide(color: Colors.black),
             ),
             isDense: true,
           ),

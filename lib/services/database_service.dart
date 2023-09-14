@@ -382,33 +382,12 @@ class DatabaseService {
     createField(pssSnapshot, "actualPathologies",
         stringToArray(userPSS.actualPathologies.text));
 
-    setField(
-        pssSnapshot,
-        "adi",
-        userPSS.adi.dropDownValue == null
-            ? ""
-            : userPSS.adi.dropDownValue!.value.toString());
-    setField(
-        pssSnapshot,
-        "adp",
-        userPSS.adp.dropDownValue == null
-            ? ""
-            : userPSS.adp.dropDownValue!.value.toString());
-
+    setField(pssSnapshot, "adi", userPSS.adi.text);
+    setField(pssSnapshot, "adp", userPSS.adp.text);
     setField(pssSnapshot, "adverseReactions", userPSS.adverseReactions.text);
     setField(pssSnapshot, "aids", userPSS.aids.text);
-    setField(
-        pssSnapshot,
-        "bloodGroup",
-        userPSS.bloodGroup.dropDownValue == null
-            ? ""
-            : userPSS.bloodGroup.dropDownValue!.value.toString());
-    setField(
-        pssSnapshot,
-        "rhFactor",
-        userPSS.rhFactor.dropDownValue == null
-            ? ""
-            : userPSS.rhFactor.dropDownValue!.value.toString());
+    setField(pssSnapshot, "bloodGroup", userPSS.bloodGroup.text);
+    setField(pssSnapshot, "rhFactor", userPSS.rhFactor.text);
     setField(pssSnapshot, "bloodPressure", userPSS.bloodPressure.text);
     setField(pssSnapshot, "bmi", userPSS.bmi.text);
     setField(pssSnapshot, "chronicPathologies",
@@ -446,12 +425,7 @@ class DatabaseService {
     setField(pssSnapshot, "userArea", userPSS.userArea.text);
     setField(pssSnapshot, "pathologyNetworks", userPSS.pathologyNetworks.text);
     setField(pssSnapshot, "associations", userPSS.associations.text);
-    setField(
-        pssSnapshot,
-        "livesAlone",
-        userPSS.livesAlone.dropDownValue == null
-            ? ""
-            : userPSS.livesAlone.dropDownValue!.value.toString());
+    setField(pssSnapshot, "livesAlone", userPSS.livesAlone.text);
   }
 
   Future<bool> createUser(UserData userData, String cfVolunteer) async {
@@ -484,12 +458,7 @@ class DatabaseService {
                 userData.secondICEContactInfo.text),
             setField(value, "secondICEContactPhone",
                 userData.secondICEContactPhone.text),
-            setField(
-                value,
-                "genre",
-                userData.genre.dropDownValue == null
-                    ? ""
-                    : userData.genre.dropDownValue!.value.toString()),
+            setField(value, "genre", userData.genre.text),
             setField(value, "idCardExpirationDate",
                 userData.idCardExpirationDate.text),
             setField(value, "idCardNumber", userData.idCardNumber.text),
@@ -505,4 +474,9 @@ class DatabaseService {
   }
 
   deleteUser(String userCF) async {}
+
+  Future<bool> checkIfCFInUse(String cf) async {
+    var doc = await patients.doc(cf).get();
+    return doc.exists;
+  }
 }

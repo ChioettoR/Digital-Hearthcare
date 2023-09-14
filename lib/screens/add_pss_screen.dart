@@ -62,7 +62,7 @@ class _AddPSSScreenState extends State<AddPSSScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("DATI SANITARI",
+                      const Text("DATI PSS",
                           style: TextStyle(
                               letterSpacing: 1,
                               decoration: TextDecoration.underline,

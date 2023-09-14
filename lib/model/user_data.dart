@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:new_dhc/dropdown_editing_controller.dart';
 import 'package:new_dhc/model/citizen.dart';
 import 'package:new_dhc/services/database_service.dart';
 
@@ -9,7 +9,7 @@ class UserData {
   late TextEditingController firstName;
   late TextEditingController lastName;
   late TextEditingController cf;
-  late SingleValueDropDownController genre;
+  late DropDownEditingController genre;
   late TextEditingController dateOfBirth;
   late TextEditingController cityOfBirth;
   late TextEditingController provinceOfBirth;
@@ -41,8 +41,7 @@ class UserData {
     firstName = TextEditingController(text: citizen.firstName);
     lastName = TextEditingController(text: citizen.lastName);
     cf = TextEditingController(text: citizen.cf);
-    genre = SingleValueDropDownController(
-        data: DropDownValueModel(name: citizen.genre, value: citizen.genre));
+    genre = DropDownEditingController(text: citizen.genre);
     dateOfBirth = TextEditingController(text: citizen.dateOfBirth);
     cityOfBirth = TextEditingController(text: citizen.cityOfBirth);
     provinceOfBirth = TextEditingController(text: citizen.provinceOfBirth);
@@ -78,8 +77,7 @@ class UserData {
     firstName = TextEditingController();
     lastName = TextEditingController();
     cf = TextEditingController();
-    genre = SingleValueDropDownController(
-        data: const DropDownValueModel(name: "Uomo", value: "Uomo"));
+    genre = DropDownEditingController();
     dateOfBirth = TextEditingController();
     cityOfBirth = TextEditingController();
     provinceOfBirth = TextEditingController();
@@ -110,7 +108,7 @@ class UserData {
 
     currentCitizen!.firstName = firstName.text;
     currentCitizen!.lastName = lastName.text;
-    currentCitizen!.genre = genre.dropDownValue!.value;
+    currentCitizen!.genre = genre.text;
     currentCitizen!.dateOfBirth = dateOfBirth.text;
     currentCitizen!.cityOfBirth = cityOfBirth.text;
     currentCitizen!.domicile = domicile.text;
@@ -139,8 +137,7 @@ class UserData {
   reset() {
     firstName.text = currentCitizen!.firstName;
     lastName.text = currentCitizen!.lastName;
-    genre.dropDownValue = DropDownValueModel(
-        name: currentCitizen!.genre, value: currentCitizen!.genre);
+    genre.reset(currentCitizen!.genre);
     dateOfBirth.text = currentCitizen!.dateOfBirth;
     cityOfBirth.text = currentCitizen!.cityOfBirth;
     domicile.text = currentCitizen!.domicile;
@@ -168,7 +165,6 @@ class UserData {
     firstName.dispose();
     lastName.dispose();
     cf.dispose();
-    genre.dispose();
     dateOfBirth.dispose();
     cityOfBirth.dispose();
     provinceOfBirth.dispose();

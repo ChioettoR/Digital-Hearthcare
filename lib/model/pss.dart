@@ -183,14 +183,14 @@ class PSS {
       'Patologie in atto': arrayToString(actualPathologies),
       'Terapie farmacologiche croniche': chronicPharmacologicalTherapies,
       'Terapie farmacologiche': othersPharmacologicalTherapies,
-      "Anamnesi Famigliari": familyHealthHistory,
+      "Anamnesi familiare": familyHealthHistory,
       'Fattori di rischio': riskFactors,
       'Capacità motoria': motorSkills,
       'Ausili': aids,
       'Protesi': prosthetics,
       'Organi mancanti': missingOrgans,
       'Trapianti': transplants,
-      'Rilevanti malformazioni': relevantMalformations,
+      'Malformazioni rilevanti': relevantMalformations,
     };
   }
 

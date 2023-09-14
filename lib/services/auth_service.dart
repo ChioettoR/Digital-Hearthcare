@@ -63,4 +63,13 @@ class AuthService {
   User? getCurrentUser() {
     return auth.currentUser;
   }
+
+  Future<bool> checkIfEmailInUse(String emailAddress) async {
+    try {
+      final list = await auth.fetchSignInMethodsForEmail(emailAddress);
+      return list.isNotEmpty;
+    } catch (error) {
+      return true;
+    }
+  }
 }

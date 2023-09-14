@@ -1,18 +1,19 @@
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:new_dhc/dropdown_editing_controller.dart';
 
 class UserPSS {
-  late TextEditingController actualPathologies;
-  late SingleValueDropDownController adi;
-  late SingleValueDropDownController adp;
+  late DropDownEditingController actualPathologies;
+  late DropDownEditingController adi;
+  late DropDownEditingController adp;
   late TextEditingController adverseReactions;
   late TextEditingController aids;
-  late SingleValueDropDownController bloodGroup;
-  late SingleValueDropDownController rhFactor;
+  late DropDownEditingController bloodGroup;
+  late DropDownEditingController rhFactor;
   late TextEditingController bloodPressure;
   late TextEditingController bmi;
-  late TextEditingController chronicPathologies;
+  late DropDownEditingController chronicPathologies;
   late TextEditingController chronicPharmacologicalTherapies;
+  late TextEditingController mmgCf;
   late TextEditingController mmgBirthDate;
   late TextEditingController mmgEmail;
   late TextEditingController mmgFirstName;
@@ -41,21 +42,22 @@ class UserPSS {
   late TextEditingController userArea;
   late TextEditingController pathologyNetworks;
   late TextEditingController associations;
-  late SingleValueDropDownController livesAlone;
+  late DropDownEditingController livesAlone;
 
   UserPSS() {
-    actualPathologies = TextEditingController();
-    adi = SingleValueDropDownController();
-    adp = SingleValueDropDownController();
+    actualPathologies = DropDownEditingController();
+    adi = DropDownEditingController();
+    adp = DropDownEditingController();
     adverseReactions = TextEditingController();
     aids = TextEditingController();
-    bloodGroup = SingleValueDropDownController();
-    rhFactor = SingleValueDropDownController();
+    bloodGroup = DropDownEditingController();
+    rhFactor = DropDownEditingController();
     bloodPressure = TextEditingController();
     bmi = TextEditingController();
-    chronicPathologies = TextEditingController();
+    chronicPathologies = DropDownEditingController();
     chronicPharmacologicalTherapies = TextEditingController();
     othersPharmacologicalTherapies = TextEditingController();
+    mmgCf = TextEditingController();
     mmgBirthDate = TextEditingController();
     mmgEmail = TextEditingController();
     mmgFirstName = TextEditingController();
@@ -83,22 +85,17 @@ class UserPSS {
     userArea = TextEditingController();
     pathologyNetworks = TextEditingController();
     associations = TextEditingController();
-    livesAlone = SingleValueDropDownController();
+    livesAlone = DropDownEditingController();
   }
 
   dispose() {
-    actualPathologies.dispose();
-    adi.dispose();
-    adp.dispose();
     adverseReactions.dispose();
     aids.dispose();
-    bloodGroup.dispose();
-    rhFactor.dispose();
     bloodPressure.dispose();
     bmi.dispose();
-    chronicPathologies.dispose();
     chronicPharmacologicalTherapies.dispose();
     othersPharmacologicalTherapies.dispose();
+    mmgCf.dispose();
     mmgBirthDate.dispose();
     mmgEmail.dispose();
     mmgFirstName.dispose();
@@ -126,6 +123,5 @@ class UserPSS {
     userArea.dispose();
     pathologyNetworks.dispose();
     associations.dispose();
-    livesAlone.dispose();
   }
 }

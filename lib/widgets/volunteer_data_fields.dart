@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:new_dhc/form_validation.dart';
 import 'package:new_dhc/model/citizen.dart';
 import 'package:new_dhc/model/user_data.dart';
+import 'package:new_dhc/widgets/custom_async_edit_field.dart';
 import 'package:new_dhc/widgets/custom_dropdown_edit_field.dart';
 import 'package:new_dhc/widgets/custom_edit_field.dart';
 import 'package:new_dhc/widgets/custom_edit_phone_field.dart';
@@ -81,13 +81,14 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       !widget.newData ? 'CODICE FISCALE:' : 'CODICE FISCALE: *',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    CustomEditField(
+                    CustomAsyncEditField(
                       widget.citizen?.cf,
                       widget.newData,
                       userData.cf,
                       false,
                       maxLength: 16,
-                      validation: cfValidation,
+                      validation: registrationCFValidation,
+                      asyncValidation: registrationCFAsyncValidation,
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -96,23 +97,17 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CustomDropdownEditField(widget.citizen?.genre, isEditing,
-                        userData.genre, false, const [
-                      DropDownValueModel(name: 'Uomo', value: "Uomo"),
-                      DropDownValueModel(name: 'Donna', value: "Donna"),
-                    ]),
+                        userData.genre, const ['Uomo', 'Donna']),
                     const SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.left,
                       !widget.newData ? 'EMAIL:' : 'EMAIL: *',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    CustomEditField(
-                      widget.citizen?.email,
-                      widget.newData,
-                      userData.email,
-                      false,
-                      validation: mandatoryEmailValidation,
-                    ),
+                    CustomAsyncEditField(widget.citizen?.email, widget.newData,
+                        userData.email, false,
+                        validation: registrationEmailValidation,
+                        asyncValidation: registrationEmailAsyncValidation),
                     const SizedBox(height: 10),
                     const Text(
                       textAlign: TextAlign.left,
