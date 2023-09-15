@@ -28,6 +28,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
   late UserData userData;
   late Uint8List? uploadedPhotoBytes;
   late bool isEditing;
+  late bool imageRemoved;
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
         widget.citizen == null ? UserData.empty() : UserData(widget.citizen!);
     uploadedPhotoBytes = null;
     isEditing = widget.initialIsEditing;
+    imageRemoved = false;
     loadPhoto();
     super.initState();
   }
@@ -450,7 +452,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                         ])),
               ]),
               SizedBox(
-                  width: 220,
+                  width: 250,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -473,21 +475,41 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                                   child: ElevatedButton(
                                     onPressed: pickImage,
                                     child: const Text('Carica foto'),
-                                  ))
+                                  )),
+                              const SizedBox(width: 10),
+                              Visibility(
+                                visible: isEditing &&
+                                    !imageRemoved &&
+                                    (uploadedPhotoBytes != null ||
+                                        userData.photoBytes != null),
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: ElevatedButton(
+                                    onPressed: removeImage,
+                                    child: const Icon(
+                                      Icons.delete,
+                                    )),
+                              )
                             ]),
                         const SizedBox(height: 10),
-                        uploadedPhotoBytes != null
-                            ? Image(
-                                alignment: Alignment.topLeft,
-                                fit: BoxFit.scaleDown,
-                                image: MemoryImage(uploadedPhotoBytes!))
+                        uploadedPhotoBytes != null && !imageRemoved
+                            ? SizedBox(
+                                height: 200,
+                                child: Image(
+                                    alignment: Alignment.center,
+                                    fit: BoxFit.contain,
+                                    image: MemoryImage(uploadedPhotoBytes!)))
                             //If the user hasn't upload an image, check if there's a storaged image.
                             //If so, shows that image, otherwhise shows nothing.
-                            : userData.photoBytes != null
-                                ? Image(
-                                    alignment: Alignment.topLeft,
-                                    fit: BoxFit.scaleDown,
-                                    image: MemoryImage(userData.photoBytes!))
+                            : userData.photoBytes != null && !imageRemoved
+                                ? SizedBox(
+                                    height: 200,
+                                    child: Image(
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.contain,
+                                        image:
+                                            MemoryImage(userData.photoBytes!)))
                                 : const Text(
                                     textAlign: TextAlign.left,
                                     'Nessuna foto caricata',
@@ -509,8 +531,9 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
 
   saveFields() {
     setState(() {
-      userData.saveCitizenFields(uploadedPhotoBytes);
+      userData.saveCitizenFields(uploadedPhotoBytes, imageRemoved);
       isEditing = false;
+      imageRemoved = false;
     });
   }
 
@@ -518,7 +541,9 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
     setState(() {
       userData.reset();
       uploadedPhotoBytes = null;
+      if (userData.photoBytes == null) loadPhoto();
       isEditing = false;
+      imageRemoved = false;
     });
   }
 
@@ -530,10 +555,18 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
       Uint8List? fileBytes = result.files.first.bytes;
       if (fileBytes != null) {
         setState(() {
+          imageRemoved = false;
           uploadedPhotoBytes = fileBytes;
         });
       }
     }
+  }
+
+  removeImage() {
+    setState(() {
+      uploadedPhotoBytes = null;
+      imageRemoved = true;
+    });
   }
 
   loadPhoto() async {

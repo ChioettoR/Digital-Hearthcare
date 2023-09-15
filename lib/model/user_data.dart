@@ -103,8 +103,8 @@ class UserData {
     photoBytes = null;
   }
 
-  saveCitizenFields(Uint8List? uploadedPhotoBytes) {
-    if (uploadedPhotoBytes != null) photoBytes = uploadedPhotoBytes;
+  saveCitizenFields(Uint8List? uploadedPhotoBytes, bool imageRemoved) {
+    photoBytes = imageRemoved ? null : uploadedPhotoBytes ?? photoBytes;
 
     currentCitizen!.firstName = firstName.text;
     currentCitizen!.lastName = lastName.text;
@@ -129,7 +129,7 @@ class UserData {
     currentCitizen!.firstICEContactPhone = firstICEContactPhone.text;
     currentCitizen!.secondICEContactInfo = secondICEContactInfo.text;
     currentCitizen!.secondICEContactPhone = secondICEContactPhone.text;
-    currentCitizen!.photoUrl = photoUrl;
+    currentCitizen!.photoUrl = imageRemoved ? "-" : photoUrl;
 
     DatabaseService().editCitizenFields(currentCitizen!, photoBytes);
   }

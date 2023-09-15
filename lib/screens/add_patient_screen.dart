@@ -67,7 +67,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       volunteerDataFields,
                       ElevatedButton(
                         onPressed: () {
-                          if (!_editingFormKey.currentState!.validate()) {
+                          if (_editingFormKey.currentState!.validate()) {
                             moveToPSSCreationScreen();
                           }
                         },

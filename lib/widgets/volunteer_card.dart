@@ -196,17 +196,13 @@ class _VolunteerCardState extends State<VolunteerCard> {
           const Divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
                   "Ultimo aggiornamento: ${widget.citizen.data?.keys.last}",
+                  textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.bodySmall,
-                ),
-                ElevatedButton(
-                    onPressed: deletePatient, child: const Icon(Icons.delete))
-              ],
-            ),
+                )),
           ),
         ],
       ),
@@ -220,8 +216,6 @@ class _VolunteerCardState extends State<VolunteerCard> {
           builder: (context) => AddPSSScreen(false, userCF: widget.citizen.cf)),
     );
   }
-
-  deletePatient() {}
 
   printData() async {
     _showLoadingDialog();

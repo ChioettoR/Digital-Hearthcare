@@ -322,6 +322,15 @@ class DatabaseService {
               await firebaseStorageRef
                   .child("images/${newCitizen.cf}")
                   .getDownloadURL()));
+    } else {
+      try {
+        await firebaseStorageRef
+            .child("images/${newCitizen.cf}")
+            .delete()
+            .then((_) async => setField(snapshot, "photoUrl", ""));
+      } catch (e) {
+        setField(snapshot, "photoUrl", "");
+      }
     }
 
     snapshot = await patients.doc(newCitizen.cf).get().then((value) {
@@ -462,8 +471,6 @@ class DatabaseService {
     }
     return false;
   }
-
-  deleteUser(String userCF) async {}
 
   Future<bool> checkIfCFInUse(String cf) async {
     var doc = await patients.doc(cf).get();
