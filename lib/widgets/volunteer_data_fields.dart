@@ -520,6 +520,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
   }
 
   UserData retrieveData() {
+    userData.savePhotoBytes(uploadedPhotoBytes, imageRemoved);
     return userData;
   }
 
@@ -531,7 +532,8 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
 
   saveFields() {
     setState(() {
-      userData.saveCitizenFields(uploadedPhotoBytes, imageRemoved);
+      userData.savePhotoBytes(uploadedPhotoBytes, imageRemoved);
+      userData.saveCitizenFields(imageRemoved);
       isEditing = false;
       imageRemoved = false;
     });

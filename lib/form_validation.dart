@@ -115,15 +115,19 @@ String? dateValidation(String? value) {
 }
 
 String? capValidation(String? value) {
-  if (value != null && value.isNotEmpty && value.length < 5) {
+  if (value == null || value.isEmpty || value == '-') {
+    return null;
+  } else if (value.length < 5) {
     return 'Inserire 5 cifre';
   }
   return null;
 }
 
 String? idCardValidation(String? value) {
-  if (value != null && value.isNotEmpty && value.length < 9) {
-    return 'Inserire 9 cifre';
+  if (value == null || value.isEmpty || value == '-') {
+    return null;
+  } else if (value.length < 9) {
+    return 'Inserire 9 caratteri';
   }
   return null;
 }

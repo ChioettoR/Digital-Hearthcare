@@ -103,9 +103,11 @@ class UserData {
     photoBytes = null;
   }
 
-  saveCitizenFields(Uint8List? uploadedPhotoBytes, bool imageRemoved) {
+  savePhotoBytes(Uint8List? uploadedPhotoBytes, bool imageRemoved) {
     photoBytes = imageRemoved ? null : uploadedPhotoBytes ?? photoBytes;
+  }
 
+  saveCitizenFields(bool imageRemoved) {
     currentCitizen!.firstName = firstName.text;
     currentCitizen!.lastName = lastName.text;
     currentCitizen!.genre = genre.text;

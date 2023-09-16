@@ -301,6 +301,24 @@ class DatabaseService {
     return citizensList;
   }
 
+  uploadPhoto(
+      DocumentSnapshot snapshot, Uint8List? photoBytes, String cf) async {
+    if (photoBytes != null) {
+      await firebaseStorageRef.child("images/$cf").putData(photoBytes).then(
+          (_) async => setField(snapshot, "photoUrl",
+              await firebaseStorageRef.child("images/$cf").getDownloadURL()));
+    } else {
+      try {
+        await firebaseStorageRef
+            .child("images/$cf")
+            .delete()
+            .then((_) async => setField(snapshot, "photoUrl", ""));
+      } catch (e) {
+        setField(snapshot, "photoUrl", "");
+      }
+    }
+  }
+
   editCitizenFields(Citizen newCitizen, Uint8List? photoBytes) async {
     DocumentSnapshot snapshot =
         await users.where('cf', isEqualTo: newCitizen.cf).get().then((value) {
@@ -312,26 +330,7 @@ class DatabaseService {
     setField(snapshot, "phone", newCitizen.phone);
     setField(snapshot, "pec", newCitizen.pec);
 
-    if (photoBytes != null) {
-      await firebaseStorageRef
-          .child("images/${newCitizen.cf}")
-          .putData(photoBytes)
-          .then((_) async => setField(
-              snapshot,
-              "photoUrl",
-              await firebaseStorageRef
-                  .child("images/${newCitizen.cf}")
-                  .getDownloadURL()));
-    } else {
-      try {
-        await firebaseStorageRef
-            .child("images/${newCitizen.cf}")
-            .delete()
-            .then((_) async => setField(snapshot, "photoUrl", ""));
-      } catch (e) {
-        setField(snapshot, "photoUrl", "");
-      }
-    }
+    await uploadPhoto(snapshot, photoBytes, newCitizen.cf);
 
     snapshot = await patients.doc(newCitizen.cf).get().then((value) {
       return value;
@@ -430,25 +429,35 @@ class DatabaseService {
   Future<bool> createUser(UserData userData, String cfVolunteer) async {
     String? newUserUid = await AuthService().createUser(userData.email.text);
     if (newUserUid != null) {
-      await users.doc(newUserUid).get().then((value) => {
-            createField(value, "cf", userData.cf.text),
-            setField(value, "email", userData.email.text),
-            setField(value, "firstName", userData.firstName.text),
-            setField(value, "lastName", userData.lastName.text),
-            setField(value, "pec", userData.pec.text),
-            setField(value, "phone", userData.phone.text),
-            setField(value, "photoUrl", userData.photoUrl),
-            setField(value, "userType", "cittadino"),
-          });
+      DocumentSnapshot snapshot = await users.doc(newUserUid).get();
+
+      createField(snapshot, "cf", userData.cf.text);
+      setField(snapshot, "email", userData.email.text);
+      setField(snapshot, "firstName", userData.firstName.text);
+      setField(snapshot, "lastName", userData.lastName.text);
+      setField(snapshot, "pec", userData.pec.text);
+      setField(snapshot, "phone", userData.phone.text);
+      await uploadPhoto(snapshot, userData.photoBytes, userData.cf.text);
+      setField(snapshot, "userType", "cittadino");
+
       await patients.doc(userData.cf.text).get().then((value) => {
             createField(value, "cfVolunteer", cfVolunteer),
-            setField(value, "cityOfBirth", userData.cityOfBirth.text),
-            setField(value, "crs", userData.crs.text),
             setField(value, "dateOfBirth", userData.dateOfBirth.text),
+            setField(value, "cityOfBirth", userData.cityOfBirth.text),
+            setField(value, "provinceOfBirth", userData.provinceOfBirth.text),
+            setField(value, "idCardNumber", userData.idCardNumber.text),
+            setField(
+                value, "idCardReleaseCity", userData.idCardReleaseCity.text),
+            setField(
+                value, "idCardReleaseDate", userData.idCardReleaseDate.text),
+            setField(value, "idCardExpirationDate",
+                userData.idCardExpirationDate.text),
+            setField(value, "genre", userData.genre.text),
             setField(value, "domicile", userData.domicile.text),
             setField(value, "domicileAddress", userData.domicileAddress.text),
-            setField(value, "domicileCap", userData.domicileCap.text),
             setField(value, "domicileProvince", userData.domicileProvince.text),
+            setField(value, "domicileCap", userData.domicileCap.text),
+            setField(value, "crs", userData.crs.text),
             setField(value, "firstICEContactInfo",
                 userData.firstICEContactInfo.text),
             setField(value, "firstICEContactPhone",
@@ -457,15 +466,8 @@ class DatabaseService {
                 userData.secondICEContactInfo.text),
             setField(value, "secondICEContactPhone",
                 userData.secondICEContactPhone.text),
-            setField(value, "genre", userData.genre.text),
-            setField(value, "idCardExpirationDate",
-                userData.idCardExpirationDate.text),
-            setField(value, "idCardNumber", userData.idCardNumber.text),
-            setField(
-                value, "idCardReleaseCity", userData.idCardReleaseCity.text),
             setField(value, "infoCaregiver", userData.infoCaregiver.text),
             setField(value, "phoneCaregiver", userData.phoneCaregiver.text),
-            setField(value, "provinceOfBirth", userData.provinceOfBirth.text),
           });
       return true;
     }

@@ -226,8 +226,13 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
               itemCount: bodyPatients.length,
               itemBuilder: (context, index) {
                 return bodyPatients[index].body
-                    ? VolunteerCard(bodyPatients[index].citizen, index,
-                        _getDate, _setDate, _removeElement)
+                    ? VolunteerCard(
+                        key: ValueKey(bodyPatients[index].citizen.fullName),
+                        bodyPatients[index].citizen,
+                        index,
+                        _getDate,
+                        _setDate,
+                        _removeElement)
                     : const SizedBox.shrink();
               },
             )
