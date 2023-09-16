@@ -22,34 +22,38 @@ class AddPSSScreen extends StatefulWidget {
 class _AddPSSScreenState extends State<AddPSSScreen> {
   final _editingFormKey = GlobalKey<FormState>();
   final _volunteerPSSFieldsKey = GlobalKey<VolunteerPSSFieldsState>();
+  late bool submitted = false;
 
   @override
   void initState() {
+    submitted = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: getCardColor(),
-          surfaceTintColor: getCardColor(),
-          centerTitle: true,
-          title: const Text("Aggiunta PSS"),
-          leading: widget.newUser
-              ? null
-              : IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const Wrapper()),
-                            (Route<dynamic> route) => false)
-                      }),
-          automaticallyImplyLeading: widget.newUser,
-        ),
-        body: addPSSBody());
+    return submitted
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: getCardColor(),
+              surfaceTintColor: getCardColor(),
+              centerTitle: true,
+              title: const Text("Aggiunta PSS"),
+              leading: widget.newUser
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const Wrapper()),
+                                (Route<dynamic> route) => false)
+                          }),
+              automaticallyImplyLeading: widget.newUser,
+            ),
+            body: addPSSBody());
   }
 
   Widget addPSSBody() {
@@ -77,6 +81,9 @@ class _AddPSSScreenState extends State<AddPSSScreen> {
                       ElevatedButton(
                         onPressed: () {
                           if (_editingFormKey.currentState!.validate()) {
+                            setState(() {
+                              submitted = true;
+                            });
                             createData();
                           }
                         },
