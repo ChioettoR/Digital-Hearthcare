@@ -107,7 +107,7 @@ class UserData {
     photoBytes = imageRemoved ? null : uploadedPhotoBytes ?? photoBytes;
   }
 
-  saveCitizenFields(bool imageRemoved) {
+  saveCitizenFields() async {
     currentCitizen!.firstName = firstName.text;
     currentCitizen!.lastName = lastName.text;
     currentCitizen!.genre = genre.text;
@@ -131,9 +131,8 @@ class UserData {
     currentCitizen!.firstICEContactPhone = firstICEContactPhone.text;
     currentCitizen!.secondICEContactInfo = secondICEContactInfo.text;
     currentCitizen!.secondICEContactPhone = secondICEContactPhone.text;
-    currentCitizen!.photoUrl = imageRemoved ? "-" : photoUrl;
-
-    DatabaseService().editCitizenFields(currentCitizen!, photoBytes);
+    currentCitizen!.photoUrl =
+        await DatabaseService().editCitizenFields(currentCitizen!, photoBytes);
   }
 
   reset() {

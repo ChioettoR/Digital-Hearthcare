@@ -301,25 +301,28 @@ class DatabaseService {
     return citizensList;
   }
 
-  uploadPhoto(
+  Future<String> uploadPhoto(
       DocumentSnapshot snapshot, Uint8List? photoBytes, String cf) async {
     if (photoBytes != null) {
-      await firebaseStorageRef.child("images/$cf").putData(photoBytes).then(
-          (_) async => setField(snapshot, "photoUrl",
-              await firebaseStorageRef.child("images/$cf").getDownloadURL()));
+      await firebaseStorageRef.child("images/$cf.jpg").putData(photoBytes);
+      String downloadUrl =
+          await firebaseStorageRef.child("images/$cf.jpg").getDownloadURL();
+      await setField(snapshot, "photoUrl", downloadUrl);
+      return downloadUrl;
     } else {
       try {
-        await firebaseStorageRef
-            .child("images/$cf")
-            .delete()
-            .then((_) async => setField(snapshot, "photoUrl", ""));
+        await firebaseStorageRef.child("images/$cf.jpg").delete();
+        await setField(snapshot, "photoUrl", "");
+        return "-";
       } catch (e) {
-        setField(snapshot, "photoUrl", "");
+        await setField(snapshot, "photoUrl", "");
+        return "-";
       }
     }
   }
 
-  editCitizenFields(Citizen newCitizen, Uint8List? photoBytes) async {
+  Future<String> editCitizenFields(
+      Citizen newCitizen, Uint8List? photoBytes) async {
     DocumentSnapshot snapshot =
         await users.where('cf', isEqualTo: newCitizen.cf).get().then((value) {
       return value.docs[0];
@@ -330,7 +333,7 @@ class DatabaseService {
     setField(snapshot, "phone", newCitizen.phone);
     setField(snapshot, "pec", newCitizen.pec);
 
-    await uploadPhoto(snapshot, photoBytes, newCitizen.cf);
+    String newPhotoUrl = await uploadPhoto(snapshot, photoBytes, newCitizen.cf);
 
     snapshot = await patients.doc(newCitizen.cf).get().then((value) {
       return value;
@@ -356,6 +359,8 @@ class DatabaseService {
     setField(snapshot, "secondICEContactInfo", newCitizen.secondICEContactInfo);
     setField(
         snapshot, "secondICEContactPhone", newCitizen.secondICEContactPhone);
+
+    return newPhotoUrl;
   }
 
   setField(DocumentSnapshot document, String field, dynamic fieldValue) {

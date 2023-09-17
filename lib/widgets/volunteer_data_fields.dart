@@ -477,7 +477,8 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                                     child: const Text('Carica foto'),
                                   )),
                               const SizedBox(width: 10),
-                              Visibility(
+                              Expanded(
+                                  child: Visibility(
                                 visible: isEditing &&
                                     !imageRemoved &&
                                     (uploadedPhotoBytes != null ||
@@ -486,11 +487,15 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
                                 maintainAnimation: true,
                                 maintainState: true,
                                 child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.zero),
+                                    ),
                                     onPressed: removeImage,
                                     child: const Icon(
                                       Icons.delete,
                                     )),
-                              )
+                              ))
                             ]),
                         const SizedBox(height: 10),
                         uploadedPhotoBytes != null && !imageRemoved
@@ -533,7 +538,7 @@ class VolunteerDataFieldsState extends State<VolunteerDataFields> {
   saveFields() {
     setState(() {
       userData.savePhotoBytes(uploadedPhotoBytes, imageRemoved);
-      userData.saveCitizenFields(imageRemoved);
+      userData.saveCitizenFields();
       isEditing = false;
       imageRemoved = false;
     });
