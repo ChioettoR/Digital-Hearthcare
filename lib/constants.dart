@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 String datiSalvavita = "DATI SALVAVITA";
@@ -34,11 +36,11 @@ List<String> subtitles = [
 ];
 
 List<String> descriptions = [
-  "Il Profilo Sanitario Sintetico (PSS) è il documento sanitario che riassume la storia clinica del paziente e la sua situazione corrente. Tale documento è creato ed aggiornato dal medico di famiglia.",
+  "Il Profilo Sanitario Sintetico (PSS) è il documento sanitario che riassume la storia clinica del paziente e la sua situazione corrente. Tale documento è creato ed aggiornato da un volontario o dal medico di famiglia.",
   "La Scheda Salvavita contiene il QR code, la foto del cittadino, i dati dell'ATS, le informazioni personali e salvavita e i contatti di emergenza. Tale documento è stato pensato per essere inserito all'interno della Busta Rossa.",
   "La C.I.S. è un tesserino cartaceo che riporta sulla facciata interna sinistra i dati anagrafici, i numeri di telefono da chiamare in caso di emergenza e le informazioni salvavita.",
   "Il badge contiene la foto del cittadino e un QR code che mostra tutte le informazioni salvavita. Il QR può essere letto dal soccorritore con il suo cellulare.",
-  "Il Braccialetto Salvavita contiene il QR code e che segnala ai soccorritori che la persona che lo porta è dotata di una Carta d'Identità Salvavita.",
+  "Il Braccialetto Salvavita contiene il QR code e segnala ai soccorritori che la persona che lo porta è dotata di una Carta d'Identità Salvavita.",
 ];
 
 List<Icon> icons = [
@@ -110,4 +112,30 @@ String _getMonth(int month) {
     default:
       return "";
   }
+}
+
+List<String> stringToArray(String stringToConvert) {
+  List<String> splitStrings = stringToConvert.split(",");
+  for (int i = 0; i < splitStrings.length; i++) {
+    splitStrings[i] = splitStrings[i].trim();
+  }
+  return splitStrings;
+}
+
+String arrayToString(List<String?> array) {
+  String convertedString = "";
+
+  for (int i = 0; i < array.length; i++) {
+    convertedString += (i > 0 ? ", " : "") + (array[i] ?? "-");
+  }
+
+  return convertedString;
+}
+
+String generateRandomString(int length) {
+  const chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+  return String.fromCharCodes(Iterable.generate(
+      length, (_) => chars.codeUnitAt(Random().nextInt(chars.length))));
 }

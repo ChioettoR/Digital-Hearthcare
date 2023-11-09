@@ -1,6 +1,4 @@
 import 'package:new_dhc/model/citizen.dart';
-import 'package:new_dhc/model/utils.dart';
-
 import '../constants.dart';
 
 class PSS {

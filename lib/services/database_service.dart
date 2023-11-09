@@ -6,7 +6,6 @@ import 'package:new_dhc/model/end_user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:new_dhc/model/user_data.dart';
 import 'package:new_dhc/model/user_pss.dart';
-import 'package:new_dhc/model/utils.dart';
 
 import '../constants.dart';
 import '../model/citizen.dart';
@@ -479,7 +478,7 @@ class DatabaseService {
     return false;
   }
 
-  Future<bool> checkIfCFInUse(String cf) async {
+  Future<bool> isCFInUse(String cf) async {
     var doc = await patients.doc(cf).get();
     return doc.exists;
   }

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:new_dhc/constants.dart';
-import 'package:new_dhc/model/utils.dart';
 
 import '../model/end_user.dart';
 import 'database_service.dart';
@@ -64,7 +63,7 @@ class AuthService {
     return auth.currentUser;
   }
 
-  Future<bool> checkIfEmailInUse(String emailAddress) async {
+  Future<bool> isEmailInUse(String emailAddress) async {
     try {
       final list = await auth.fetchSignInMethodsForEmail(emailAddress);
       return list.isNotEmpty;

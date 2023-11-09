@@ -45,11 +45,11 @@ String? registrationCFValidation(
 }
 
 Future<bool?> registrationEmailAsyncValidation(String value) async {
-  return (!await AuthService().checkIfEmailInUse(value));
+  return (!await AuthService().isEmailInUse(value));
 }
 
 Future<bool?> registrationCFAsyncValidation(String value) async {
-  return (!await DatabaseService().checkIfCFInUse(value));
+  return (!await DatabaseService().isCFInUse(value));
 }
 
 String? mandatoryFormValidation(String? value) {
